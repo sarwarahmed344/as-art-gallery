@@ -41,7 +41,10 @@ const ITEMS: ArtItem[] = [
     name: "Shahrukh Khan",
     instaHandle: "iamsrk",
     dialogue: "Rahul... naam toh suna hi hoga?",
-    like: "The insane cross-hatching detail on his rings and watch, paired with the slick reflection look on his aviator sunglasses.",
+    like: "I went really hard on the cross-hatching across his rings and watch — and the reflection on those aviators is my favourite bit on the whole page.",
+    medium: "0.3mm Micron Pen · A4 Cartridge Paper",
+    year: "2024",
+    categories: ["Bollywood"],
     src: sketchImg("shahrukh"),
   },
   {
@@ -49,7 +52,10 @@ const ITEMS: ArtItem[] = [
     name: "Pushpa Raj (Allu Arjun)",
     instaHandle: "alluarjunonline",
     dialogue: "Pushpa... Pushpa Raj. Main jhukega nahi, saala!",
-    like: "The sheer attitude in the posture and how aggressively detailed you made his beard texture look using fine, layered line strokes.",
+    like: "I wanted the attitude in his posture to do most of the talking. Stacking fine layered strokes through the beard is what finally sold the texture for me.",
+    medium: "0.05–0.5mm Micron Pen · A4",
+    year: "2024",
+    categories: ["Bollywood"],
     src: sketchImg("pushpa"),
   },
   {
@@ -57,14 +63,20 @@ const ITEMS: ArtItem[] = [
     name: "Cristiano Ronaldo",
     instaHandle: "cristiano",
     dialogue: "Your love makes me strong, your hate makes me unstoppable.",
-    like: "The pure emotion captured in his expression as he embraces the trophy, accented by the sharp highlights on the metallic surface.",
+    like: "I tried to bottle the emotion of him holding that trophy — the sharp highlights on the metal were my excuse to chase real shine with just ink.",
+    medium: "Graphite + 0.3mm Ink Liner · A4",
+    year: "2024",
+    categories: ["Football"],
     src: sketchImg("ronaldo-trophy"),
   },
   {
     id: "leon",
     name: "Leon S. Kennedy",
     dialogue: "Try using knives next time. Better for close encounters.",
-    like: "The dramatic, moody lighting that casts the entire lower half of the page into pitch black, emphasizing his iconic piercing gaze.",
+    like: "I leaned hard into the noir lighting and let the bottom half of the page drown in black — all so his eyes could carry the whole drawing.",
+    medium: "0.05–0.8mm Micron Pen · A4",
+    year: "2025",
+    categories: ["Games"],
     src: sketchImg("leon"),
   },
   {
@@ -72,7 +84,10 @@ const ITEMS: ArtItem[] = [
     name: "Neymar Jr",
     instaHandle: "neymarjr",
     dialogue: "I do not play football to win the Ballon d'Or. I play football to be happy, because I love it.",
-    like: "The intricate cross-hatching style you used to fill his headband, contrasted beautifully against the clean, smooth skin shading of his profile.",
+    like: "I packed the headband with dense cross-hatching on purpose so it would contrast against the smoother skin shading I built up on his profile.",
+    medium: "0.3mm Micron Pen · A4 Cartridge Paper",
+    year: "2025",
+    categories: ["Football"],
     src: sketchImg("neymar"),
   },
 ];
@@ -94,12 +109,16 @@ function SketchesPage() {
             Monochrome Sector
           </h1>
           <p className="mt-4 max-w-xl text-sm text-white/60">
-            Ink. Graphite. Shadow. A collection of high-contrast noir portraits — every line drawn by hand.
+            Ink. Graphite. Shadow. A collection of high-contrast noir portraits — every line drawn by hand. Hover any piece to read the notes.
           </p>
         </section>
 
         <section className="relative mx-auto max-w-7xl px-6 pb-24">
-          <Gallery items={ITEMS} variant="mono" />
+          <Gallery
+            items={ITEMS}
+            variant="mono"
+            filters={["Bollywood", "Football", "Games"]}
+          />
         </section>
       </main>
       <Footer />

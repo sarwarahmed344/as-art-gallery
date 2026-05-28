@@ -25,15 +25,21 @@ const ITEMS: ArtItem[] = [
   {
     id: "gojo-vs-sukuna",
     name: "Satoru Gojo vs. Ryomen Sukuna",
-    dialogue: "The battle between the Strongest sorcerer of today vs The Strongest sorcerer of History",
-    like: "The creative split-face concept that contrasts Gojo's striking ice-blue eye directly against Sukuna's menacing purple-hued curse energy.",
+    dialogue: "The Strongest sorcerer of today vs the Strongest sorcerer of History.",
+    like: "I split the face down the middle on purpose — Gojo's ice-blue eye on one side, Sukuna's purple curse haze on the other. That contrast is the whole point of the piece.",
+    medium: "Alcohol Markers + Ink · A4",
+    year: "2025",
+    categories: ["Anime"],
     src: colorImg("gojo-vs-sukuna"),
   },
   {
     id: "gojo",
     name: "Satoru Gojo",
     dialogue: "Don't worry, I'm the strongest.",
-    like: "The bold, stylized use of a heavy blue overlay technique that makes his eyes look like they are literally glowing off the page.",
+    like: "I layered a heavy blue overlay over the eyes so they'd actually feel like they're glowing off the page — that's the moment the drawing clicked for me.",
+    medium: "Alcohol Markers · Cartridge Paper",
+    year: "2025",
+    categories: ["Anime"],
     src: colorImg("gojo"),
   },
   {
@@ -41,7 +47,10 @@ const ITEMS: ArtItem[] = [
     name: "Lionel Messi",
     instaHandle: "leomessi",
     dialogue: "Champions are made when no one is watching.",
-    like: "The vibrant golden coloring work on the World Cup trophy and how cleanly you rendered the complex tattoo sleeve on his arm.",
+    like: "I spent ages getting the gold on the World Cup right, and pushing through that detailed tattoo sleeve cleanly was the moment I knew the piece was working.",
+    medium: "Markers + Coloured Pencils · A4",
+    year: "2024",
+    categories: ["Football"],
     src: colorImg("messi"),
   },
   {
@@ -49,14 +58,20 @@ const ITEMS: ArtItem[] = [
     name: "Cristiano Ronaldo",
     instaHandle: "cristiano",
     dialogue: "SIUUU!",
-    like: "The explosive energy of his celebration, backed by the solid black background that makes his muscle definitions look incredibly sharp.",
+    like: "I dropped him on a solid black background to keep the celebration explosive — it made his muscle definition pop sharper than I expected.",
+    medium: "Digital + Marker Study",
+    year: "2024",
+    categories: ["Football"],
     src: colorImg("ronaldo-siuuu"),
   },
   {
     id: "kaiser",
     name: "Michael Kaiser",
     dialogue: "Those who sacrifice their talent in exchange for living long and tedious lives are the ones I despise the most.",
-    like: "The striking execution of his blue hair tips and the clean coloring on his hand tattoo, fitting the high-energy aesthetic perfectly.",
+    like: "I obsessed over the blue tips of his hair and kept the hand tattoo clean — exactly the high-energy, slightly arrogant vibe Kaiser deserves.",
+    medium: "Alcohol Markers · A4",
+    year: "2025",
+    categories: ["Anime", "Blue Lock"],
     src: colorImg("kaiser"),
   },
   {
@@ -64,21 +79,30 @@ const ITEMS: ArtItem[] = [
     name: "Cristiano Ronaldo",
     instaHandle: "cristiano",
     dialogue: "Talent without working hard is nothing.",
-    like: "The sharp geometric color blocks of yellow and blue in the background that instantly give the portrait a modern, pop-art look.",
+    like: "I cut the background into sharp yellow and blue blocks behind him — once those landed, the whole portrait flipped into proper pop-art territory.",
+    medium: "Markers + Coloured Pencils · A4",
+    year: "2025",
+    categories: ["Football"],
     src: colorImg("ronaldo-smile"),
   },
   {
     id: "eren",
     name: "Eren Yeager",
     dialogue: "We're born free. All of us. Free. Some don't believe it, some try to take it away. To hell with them!",
-    like: "The stunning lighting source hitting his back and arms, creating beautiful highlights that emphasize his physical form perfectly.",
+    like: "I placed the light source behind him so it'd rake across his back and arms — those highlights are doing all the heavy lifting on the anatomy.",
+    medium: "Alcohol Markers + Pencil · A4",
+    year: "2025",
+    categories: ["Anime"],
     src: colorImg("eren"),
   },
   {
     id: "rin",
     name: "Itoshi Rin",
     dialogue: "Football is a battlefield. It's about killing your opponent.",
-    like: "The menacing teal hair tones and the sharp, dangerous expression in his eyes that perfectly mirrors his egoist personality.",
+    like: "I pushed the teal hair tones cold and kept the eyes sharp on purpose — pure egoist energy, exactly how Rin reads in the manga.",
+    medium: "Alcohol Markers · A4",
+    year: "2025",
+    categories: ["Anime", "Blue Lock"],
     src: colorImg("rin"),
   },
   {
@@ -86,28 +110,40 @@ const ITEMS: ArtItem[] = [
     name: "Tony Stark (Robert Downey Jr.)",
     instaHandle: "robertdowneyjr",
     dialogue: "I am Iron Man.",
-    like: "The dramatic red and pink lighting cast across his face, beautifully simulating the intense glow from inside the suit HUD.",
+    like: "I washed his whole face in red and pink to fake the glow from inside the suit HUD — it became my favourite lighting trick on this set.",
+    medium: "Digital Study",
+    year: "2024",
+    categories: ["Movies"],
     src: colorImg("tony"),
   },
   {
     id: "vivian",
     name: "Vivian Hugo",
     dialogue: "Yeah. At the end of the day... the talented and talentless can never understand each other.",
-    like: "The chaotic, stylized numbers and comic speech bubbles scrawled across the bright pink canvas that capture a pure chaotic manga vibe.",
+    like: "I scrawled chaotic numbers and comic speech bubbles across that hot-pink canvas — that's the pure unhinged manga energy I was after.",
+    medium: "Markers + Ink · A4",
+    year: "2025",
+    categories: ["Anime", "Blue Lock"],
     src: colorImg("vivian"),
   },
   {
     id: "mikey",
     name: "Manjiro Sano (Bonten Mikey)",
     dialogue: "I will create an era for delinquents.",
-    like: "The haunting perspective from the back showing his neck tattoo, accented beautifully by the clean folds of his white coat.",
+    like: "I drew him from behind to feature the neck tattoo, then balanced it with crisp folds on the white coat — that quiet menace is the look I wanted.",
+    medium: "Markers + Ink · A4",
+    year: "2025",
+    categories: ["Anime"],
     src: colorImg("mikey"),
   },
   {
     id: "sae",
     name: "Itoshi Sae",
     dialogue: "lukewarm",
-    like: "The jaw-dropping contrast between Sae's clean face and the incredibly chaotic, intricate mechanical gears exploding on the right side.",
+    like: "I kept Sae's face clean and then went all-in on the mechanical gears exploding off the right side — that contrast is the part I'm proudest of.",
+    medium: "Alcohol Markers + Liner · A4",
+    year: "2025",
+    categories: ["Anime", "Blue Lock"],
     src: colorImg("sae"),
   },
 ];
@@ -132,12 +168,16 @@ function ColorsPage() {
             <span className="text-gradient-vivid">Vivid Spectrum</span>
           </h1>
           <p className="mt-4 max-w-xl text-sm text-white/65">
-            Neon, ink and pigment colliding. High-energy anime, pop-art and concept work.
+            Neon, ink and pigment colliding. Filter by tag, hover any piece to read the notes, tap to open fullscreen.
           </p>
         </section>
 
         <section className="relative mx-auto max-w-7xl px-6 pb-24">
-          <Gallery items={ITEMS} variant="vivid" />
+          <Gallery
+            items={ITEMS}
+            variant="vivid"
+            filters={["Anime", "Blue Lock", "Football", "Movies"]}
+          />
         </section>
       </main>
       <Footer />
