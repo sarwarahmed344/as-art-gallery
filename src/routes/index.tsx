@@ -1,8 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronDown, Instagram, ArrowRight } from "lucide-react";
+import { ChevronDown, Instagram, ArrowRight, Sparkles } from "lucide-react";
+import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
+import { SplitSectorBackground } from "@/components/SplitSectorBackground";
+import { ArtImage } from "@/components/ArtImage";
+import { colorImg } from "@/lib/artAssets";
+import { sketchImg } from "@/lib/artAssets";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,7 +25,26 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+// Featured pick — update monthly.
+const FEATURED = {
+  name: "Itoshi Sae",
+  note: "This month — Sae's stillness with the gears tearing out the right side. The piece I keep going back to.",
+  sectorLabel: "Vivid Spectrum",
+  sectorTo: "/colors" as const,
+  src: colorImg("sae"),
+  volume: "Vol. 01",
+};
+
+// AS Recommends — manually curated. Swap freely.
+const RECOMMENDS = [
+  { id: "gojo-vs-sukuna", name: "Gojo vs Sukuna", to: "/colors" as const, src: colorImg("gojo-vs-sukuna") },
+  { id: "neymar", name: "Neymar Jr", to: "/sketches" as const, src: sketchImg("neymar") },
+  { id: "vivian", name: "Vivian Hugo", to: "/colors" as const, src: colorImg("vivian") },
+];
+
 function Index() {
+  const [hoverSide, setHoverSide] = useState<"left" | "right" | null>(null);
+
   const scrollToSectors = () => {
     document.getElementById("sectors")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -29,10 +53,9 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      {/* HERO */}
+      {/* HERO with split sector animated background */}
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,oklch(0.22_0.05_280/0.6),transparent_60%)]" />
-        <div className="grain absolute inset-0" />
+        <SplitSectorBackground hoverSide={hoverSide} />
         <div className="relative z-10 text-center animate-fade-up">
           <h1 className="font-display text-[22vw] leading-none font-bold tracking-tighter sm:text-[18rem] md:text-[20rem]">
             AS
@@ -46,9 +69,20 @@ function Index() {
             <Instagram className="h-4 w-4" />
             <span className="underline decoration-dotted underline-offset-4">@sarwarr.rr</span>
           </a>
-          <p className="mx-auto mt-6 max-w-md text-sm text-muted-foreground/80">
-            Sketch &amp; concept artist. Two worlds — stark monochrome ink and high-voltage color.
-          </p>
+
+          {/* Artist Statement — first person, 3–4 lines */}
+          <div className="mx-auto mt-8 max-w-xl text-left sm:text-center">
+            <p className="text-[15px] leading-relaxed text-white/85">
+              I'm <span className="font-semibold text-white">AS</span> — short for Sarwar, the name
+              I sign with when the pen actually moves. I draw because some things only sit right
+              once they're on paper.
+            </p>
+            <p className="mt-2 text-[15px] leading-relaxed text-white/75">
+              <span className="text-white">Monochrome</span> is where I sit with the patience —
+              ink, graphite, hours of cross-hatching. <span className="text-white">Vivid</span> is
+              where the same characters get loud — color, energy, full volume.
+            </p>
+          </div>
         </div>
 
         <button
@@ -58,6 +92,38 @@ function Index() {
         >
           <ChevronDown className="h-7 w-7" />
         </button>
+      </section>
+
+      {/* FEATURED — spotlight */}
+      <section className="relative mx-auto max-w-5xl px-6 pt-24 pb-12">
+        <div className="mb-8 text-center">
+          <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-muted-foreground">
+            <Sparkles className="h-3.5 w-3.5" /> This Month's Pick · Featured {FEATURED.volume}
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">Featured Work</h2>
+        </div>
+
+        <Link
+          to={FEATURED.sectorTo}
+          className="group relative mx-auto block w-full max-w-3xl"
+        >
+          {/* glow */}
+          <div className="pointer-events-none absolute -inset-6 rounded-3xl opacity-60 blur-3xl transition-opacity duration-700 group-hover:opacity-90"
+            style={{ background: "var(--gradient-vivid)" }}
+          />
+          {/* vignette frame */}
+          <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-black">
+            <div className="relative">
+              <ArtImage src={FEATURED.src} alt={FEATURED.name} />
+              <div className="pointer-events-none absolute inset-0 [box-shadow:inset_0_0_120px_60px_rgba(0,0,0,0.75)]" />
+            </div>
+            <div className="p-6 sm:p-8">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-white/55">{FEATURED.sectorLabel}</p>
+              <h3 className="mt-2 font-display text-2xl font-bold text-white sm:text-3xl">{FEATURED.name}</h3>
+              <p className="mt-3 max-w-xl text-sm text-white/70">{FEATURED.note}</p>
+            </div>
+          </div>
+        </Link>
       </section>
 
       {/* SECTOR CHOICES */}
@@ -71,6 +137,8 @@ function Index() {
           {/* Monochrome card */}
           <Link
             to="/sketches"
+            onMouseEnter={() => setHoverSide("left")}
+            onMouseLeave={() => setHoverSide(null)}
             className="group relative overflow-hidden rounded-2xl border border-white/15 bg-black p-10 transition-all duration-500 hover:-translate-y-1 hover:border-white/40 min-h-[360px] flex flex-col justify-between"
           >
             <div className="grain absolute inset-0 opacity-50" />
@@ -91,6 +159,8 @@ function Index() {
           {/* Vivid card */}
           <Link
             to="/colors"
+            onMouseEnter={() => setHoverSide("right")}
+            onMouseLeave={() => setHoverSide(null)}
             className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0b0c10] p-10 transition-all duration-500 hover:-translate-y-1 min-h-[360px] flex flex-col justify-between"
           >
             <div className="pointer-events-none absolute -inset-1 opacity-60 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
@@ -110,6 +180,35 @@ function Index() {
               Enter colors <ArrowRight className="h-4 w-4" />
             </div>
           </Link>
+        </div>
+      </section>
+
+      {/* AS RECOMMENDS */}
+      <section className="mx-auto max-w-7xl px-6 pb-24">
+        <div className="mb-10 flex items-end justify-between gap-6">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">The Artist's Edit</p>
+            <h2 className="mt-2 font-display text-3xl font-bold sm:text-4xl">AS Recommends</h2>
+            <p className="mt-2 max-w-md text-sm text-white/60">
+              Three pieces I'd point you to first. Personal picks — refreshed when something newer earns its spot.
+            </p>
+          </div>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {RECOMMENDS.map((r) => (
+            <Link
+              key={r.id}
+              to={r.to}
+              className="group relative overflow-hidden rounded-xl border border-white/10 bg-black"
+            >
+              <ArtImage src={r.src} alt={r.name} />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
+              <div className="absolute inset-x-0 bottom-0 p-4">
+                <p className="text-[10px] uppercase tracking-[0.25em] text-white/55">Personal pick</p>
+                <p className="mt-1 font-display text-lg font-semibold text-white">{r.name}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
