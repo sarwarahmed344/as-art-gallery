@@ -98,6 +98,9 @@ function SketchesPage() {
     <div className="min-h-screen bg-black text-white">
       <Navbar />
       <main className="relative">
+        <div className="absolute inset-x-0 top-0 h-[480px] opacity-70">
+          <SplitSectorBackground hoverSide="left" />
+        </div>
         <div className="grain absolute inset-0 pointer-events-none" />
         <section className="relative mx-auto max-w-7xl px-6 pt-32 pb-12">
           <Link
