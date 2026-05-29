@@ -1,15 +1,11 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArtImage } from "@/components/ArtImage";
 import { Lightbox, type LightboxItem } from "@/components/Lightbox";
 import { renderWithInstaLinks } from "@/lib/insta";
+import { bumpView, getViewCount } from "@/lib/views";
 
-export type ArtCategory =
-  | "Anime"
-  | "Football"
-  | "Bollywood"
-  | "Games"
-  | "Blue Lock"
-  | "Movies";
+// Tags now combine content + style: free string but constrained by usage.
+export type ArtTag = string;
 
 export type ArtItem = {
   id: string;
@@ -19,7 +15,7 @@ export type ArtItem = {
   like?: string;
   medium?: string;
   year?: string;
-  categories?: ArtCategory[];
+  categories?: ArtTag[];
   src?: string;
   /** When true (Moosa/Akber), render ONLY the instagram link beneath the image */
   idOnly?: boolean;
@@ -29,12 +25,20 @@ interface Props {
   items: ArtItem[];
   variant: "mono" | "vivid";
   /** Filter tags to expose above the grid */
-  filters?: ArtCategory[];
+  filters?: ArtTag[];
 }
 
 export function Gallery({ items, variant, filters }: Props) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
-  const [active, setActive] = useState<ArtCategory | "All">("All");
+  const [active, setActive] = useState<ArtTag | "All">("All");
+  const [views, setViews] = useState<Record<string, number>>({});
+
+  // Hydrate view counts client-side only.
+  useEffect(() => {
+    const next: Record<string, number> = {};
+    for (const i of items) next[i.id] = getViewCount(i.id);
+    setViews(next);
+  }, [items]);
 
   const visible = useMemo(() => {
     if (active === "All") return items;
@@ -45,6 +49,12 @@ export function Gallery({ items, variant, filters }: Props) {
     src: i.src ?? "",
     alt: i.name,
   }));
+
+  const openLightbox = (idx: number, id: string) => {
+    setOpenIdx(idx);
+    const fresh = bumpView(id);
+    setViews((v) => ({ ...v, [id]: fresh }));
+  };
 
   const isMono = variant === "mono";
   const cardBase = isMono
@@ -66,7 +76,7 @@ export function Gallery({ items, variant, filters }: Props) {
             return (
               <button
                 key={tag}
-                onClick={() => setActive(tag as ArtCategory | "All")}
+                onClick={() => setActive(tag as ArtTag | "All")}
                 className={`${chipBase} ${
                   isActive
                     ? "border-white bg-white text-black"
@@ -85,7 +95,7 @@ export function Gallery({ items, variant, filters }: Props) {
           <article
             key={item.id}
             className={`mb-5 break-inside-avoid cursor-zoom-in ${cardBase} ${glowOnHover} animate-fade-in`}
-            onClick={() => item.src && setOpenIdx(i)}
+            onClick={() => item.src && openLightbox(i, item.id)}
           >
             <div className="relative overflow-hidden">
               <div className="transition-transform duration-700 ease-out group-hover:scale-[1.06]">
@@ -123,6 +133,18 @@ export function Gallery({ items, variant, filters }: Props) {
                         {renderWithInstaLinks(item.like)}
                       </p>
                     )}
+                    {item.categories && item.categories.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {item.categories.map((c) => (
+                          <span
+                            key={c}
+                            className="rounded-full border border-white/20 px-2 py-0.5 text-[9px] uppercase tracking-[0.15em] text-white/65"
+                          >
+                            {c}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-[10px] uppercase tracking-[0.15em] text-white/55">
                       {item.medium && <span>{item.medium}</span>}
                       {item.medium && item.year && <span className="opacity-40">·</span>}
@@ -146,6 +168,12 @@ export function Gallery({ items, variant, filters }: Props) {
                   </a>
                 </div>
               )}
+            </div>
+
+            {/* Always-visible view counter strip */}
+            <div className="flex items-center justify-between border-t border-white/5 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white/40">
+              <span>{views[item.id] ?? "—"} views</span>
+              {!item.idOnly && item.year && <span className="opacity-60">{item.year}</span>}
             </div>
           </article>
         ))}
