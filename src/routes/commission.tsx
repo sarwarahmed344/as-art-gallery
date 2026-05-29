@@ -63,7 +63,7 @@ function CommissionPage() {
     const { name, instagram, reference, style: pickedStyle } = parsed.data;
     const handle = instagram?.replace(/^@/, "").trim();
     const lines = [
-      "Hi AS! I'd like to request a commission.",
+      "Hi AS! I'd like to request a piece.",
       "",
       `Name: ${name}`,
       handle ? `Instagram: @${handle}` : "Instagram: —",
