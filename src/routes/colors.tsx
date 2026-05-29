@@ -154,8 +154,11 @@ function ColorsPage() {
     <div className="min-h-screen bg-[#0b0c10] text-foreground">
       <Navbar />
       <main className="relative">
+        <div className="absolute inset-x-0 top-0 h-[480px] opacity-70">
+          <SplitSectorBackground hoverSide="right" />
+        </div>
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[600px] opacity-30 blur-3xl"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[600px] opacity-25 blur-3xl"
           style={{ background: "var(--gradient-vivid)" }}
         />
         <section className="relative mx-auto max-w-7xl px-6 pt-32 pb-12">
