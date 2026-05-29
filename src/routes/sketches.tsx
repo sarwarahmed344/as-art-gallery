@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { Gallery, type ArtItem } from "@/components/Gallery";
+import { SplitSectorBackground } from "@/components/SplitSectorBackground";
 import { sketchImg } from "@/lib/artAssets";
 
 export const Route = createFileRoute("/sketches")({
@@ -44,7 +45,7 @@ const ITEMS: ArtItem[] = [
     like: "I went really hard on the cross-hatching across his rings and watch — and the reflection on those aviators is my favourite bit on the whole page.",
     medium: "0.3mm Micron Pen · A4 Cartridge Paper",
     year: "2024",
-    categories: ["Bollywood"],
+    categories: ["Bollywood", "Portrait", "Ink", "Cross-hatch", "Realistic"],
     src: sketchImg("shahrukh"),
   },
   {
@@ -55,7 +56,7 @@ const ITEMS: ArtItem[] = [
     like: "I wanted the attitude in his posture to do most of the talking. Stacking fine layered strokes through the beard is what finally sold the texture for me.",
     medium: "0.05–0.5mm Micron Pen · A4",
     year: "2024",
-    categories: ["Bollywood"],
+    categories: ["Bollywood", "Portrait", "Ink", "Cross-hatch"],
     src: sketchImg("pushpa"),
   },
   {
@@ -66,7 +67,7 @@ const ITEMS: ArtItem[] = [
     like: "I tried to bottle the emotion of him holding that trophy — the sharp highlights on the metal were my excuse to chase real shine with just ink.",
     medium: "Graphite + 0.3mm Ink Liner · A4",
     year: "2024",
-    categories: ["Football"],
+    categories: ["Football", "Portrait", "Ink", "Realistic"],
     src: sketchImg("ronaldo-trophy"),
   },
   {
@@ -76,7 +77,7 @@ const ITEMS: ArtItem[] = [
     like: "I leaned hard into the noir lighting and let the bottom half of the page drown in black — all so his eyes could carry the whole drawing.",
     medium: "0.05–0.8mm Micron Pen · A4",
     year: "2025",
-    categories: ["Games"],
+    categories: ["Games", "Portrait", "Ink", "Cross-hatch"],
     src: sketchImg("leon"),
   },
   {
@@ -87,7 +88,7 @@ const ITEMS: ArtItem[] = [
     like: "I packed the headband with dense cross-hatching on purpose so it would contrast against the smoother skin shading I built up on his profile.",
     medium: "0.3mm Micron Pen · A4 Cartridge Paper",
     year: "2025",
-    categories: ["Football"],
+    categories: ["Football", "Portrait", "Ink", "Cross-hatch"],
     src: sketchImg("neymar"),
   },
 ];
@@ -97,6 +98,9 @@ function SketchesPage() {
     <div className="min-h-screen bg-black text-white">
       <Navbar />
       <main className="relative">
+        <div className="absolute inset-x-0 top-0 h-[480px] opacity-70">
+          <SplitSectorBackground hoverSide="left" />
+        </div>
         <div className="grain absolute inset-0 pointer-events-none" />
         <section className="relative mx-auto max-w-7xl px-6 pt-32 pb-12">
           <Link
@@ -117,7 +121,7 @@ function SketchesPage() {
           <Gallery
             items={ITEMS}
             variant="mono"
-            filters={["Bollywood", "Football", "Games"]}
+            filters={["Portrait", "Cross-hatch", "Ink", "Realistic", "Bollywood", "Football", "Games"]}
           />
         </section>
       </main>

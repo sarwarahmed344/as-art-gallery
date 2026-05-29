@@ -9,13 +9,13 @@ import { BackToTop } from "@/components/BackToTop";
 export const Route = createFileRoute("/commission")({
   head: () => ({
     meta: [
-      { title: "Commission a Piece — AS Art Gallery" },
+      { title: "Request a Piece — AS Art Gallery" },
       {
         name: "description",
         content:
-          "Request a custom Monochrome or Vivid commission from AS (@sarwarr.rr). Submissions are sent directly via WhatsApp.",
+          "Request a custom Monochrome or Vivid piece from AS (@sarwarr.rr). Submissions are sent directly via WhatsApp.",
       },
-      { property: "og:title", content: "Commission — AS Art Gallery" },
+      { property: "og:title", content: "Request a Piece — AS Art Gallery" },
       { property: "og:description", content: "Order a custom sketch or colored piece from AS." },
       { property: "og:url", content: "https://asarts.lovable.app/commission" },
     ],
@@ -63,7 +63,7 @@ function CommissionPage() {
     const { name, instagram, reference, style: pickedStyle } = parsed.data;
     const handle = instagram?.replace(/^@/, "").trim();
     const lines = [
-      "Hi AS! I'd like to request a commission.",
+      "Hi AS! I'd like to request a piece.",
       "",
       `Name: ${name}`,
       handle ? `Instagram: @${handle}` : "Instagram: —",
@@ -95,7 +95,7 @@ function CommissionPage() {
           </Link>
           <p className="mt-8 text-xs uppercase tracking-[0.3em] text-muted-foreground">Hire the artist</p>
           <h1 className="mt-3 font-display text-5xl font-bold tracking-tighter sm:text-6xl">
-            Commission a piece
+            Request a Piece
           </h1>
           <p className="mt-4 max-w-xl text-sm text-white/65">
             Drop the details below. Hitting submit opens WhatsApp pre-filled — you just press send and we take it from there.

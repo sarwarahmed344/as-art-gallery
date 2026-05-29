@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { Gallery, type ArtItem } from "@/components/Gallery";
+import { SplitSectorBackground } from "@/components/SplitSectorBackground";
 import { colorImg } from "@/lib/artAssets";
 
 export const Route = createFileRoute("/colors")({
@@ -29,7 +30,7 @@ const ITEMS: ArtItem[] = [
     like: "I split the face down the middle on purpose — Gojo's ice-blue eye on one side, Sukuna's purple curse haze on the other. That contrast is the whole point of the piece.",
     medium: "Alcohol Markers + Ink · A4",
     year: "2025",
-    categories: ["Anime"],
+    categories: ["Anime", "Portrait", "Colored", "Pop-art"],
     src: colorImg("gojo-vs-sukuna"),
   },
   {
@@ -39,7 +40,7 @@ const ITEMS: ArtItem[] = [
     like: "I layered a heavy blue overlay over the eyes so they'd actually feel like they're glowing off the page — that's the moment the drawing clicked for me.",
     medium: "Alcohol Markers · Cartridge Paper",
     year: "2025",
-    categories: ["Anime"],
+    categories: ["Anime", "Portrait", "Colored", "Pop-art"],
     src: colorImg("gojo"),
   },
   {
@@ -50,7 +51,7 @@ const ITEMS: ArtItem[] = [
     like: "I spent ages getting the gold on the World Cup right, and pushing through that detailed tattoo sleeve cleanly was the moment I knew the piece was working.",
     medium: "Markers + Coloured Pencils · A4",
     year: "2024",
-    categories: ["Football"],
+    categories: ["Football", "Portrait", "Colored", "Realistic"],
     src: colorImg("messi"),
   },
   {
@@ -61,7 +62,7 @@ const ITEMS: ArtItem[] = [
     like: "I dropped him on a solid black background to keep the celebration explosive — it made his muscle definition pop sharper than I expected.",
     medium: "Digital + Marker Study",
     year: "2024",
-    categories: ["Football"],
+    categories: ["Football", "Portrait", "Colored", "Realistic"],
     src: colorImg("ronaldo-siuuu"),
   },
   {
@@ -71,7 +72,7 @@ const ITEMS: ArtItem[] = [
     like: "I obsessed over the blue tips of his hair and kept the hand tattoo clean — exactly the high-energy, slightly arrogant vibe Kaiser deserves.",
     medium: "Alcohol Markers · A4",
     year: "2025",
-    categories: ["Anime", "Blue Lock"],
+    categories: ["Anime", "Blue Lock", "Portrait", "Colored", "Pop-art"],
     src: colorImg("kaiser"),
   },
   {
@@ -82,7 +83,7 @@ const ITEMS: ArtItem[] = [
     like: "I cut the background into sharp yellow and blue blocks behind him — once those landed, the whole portrait flipped into proper pop-art territory.",
     medium: "Markers + Coloured Pencils · A4",
     year: "2025",
-    categories: ["Football"],
+    categories: ["Football", "Portrait", "Colored", "Realistic"],
     src: colorImg("ronaldo-smile"),
   },
   {
@@ -92,7 +93,7 @@ const ITEMS: ArtItem[] = [
     like: "I placed the light source behind him so it'd rake across his back and arms — those highlights are doing all the heavy lifting on the anatomy.",
     medium: "Alcohol Markers + Pencil · A4",
     year: "2025",
-    categories: ["Anime"],
+    categories: ["Anime", "Portrait", "Colored", "Pop-art"],
     src: colorImg("eren"),
   },
   {
@@ -102,7 +103,7 @@ const ITEMS: ArtItem[] = [
     like: "I pushed the teal hair tones cold and kept the eyes sharp on purpose — pure egoist energy, exactly how Rin reads in the manga.",
     medium: "Alcohol Markers · A4",
     year: "2025",
-    categories: ["Anime", "Blue Lock"],
+    categories: ["Anime", "Blue Lock", "Portrait", "Colored", "Pop-art"],
     src: colorImg("rin"),
   },
   {
@@ -113,7 +114,7 @@ const ITEMS: ArtItem[] = [
     like: "I washed his whole face in red and pink to fake the glow from inside the suit HUD — it became my favourite lighting trick on this set.",
     medium: "Digital Study",
     year: "2024",
-    categories: ["Movies"],
+    categories: ["Movies", "Portrait", "Colored", "Realistic"],
     src: colorImg("tony"),
   },
   {
@@ -123,7 +124,7 @@ const ITEMS: ArtItem[] = [
     like: "I scrawled chaotic numbers and comic speech bubbles across that hot-pink canvas — that's the pure unhinged manga energy I was after.",
     medium: "Markers + Ink · A4",
     year: "2025",
-    categories: ["Anime", "Blue Lock"],
+    categories: ["Anime", "Blue Lock", "Portrait", "Colored", "Pop-art"],
     src: colorImg("vivian"),
   },
   {
@@ -133,7 +134,7 @@ const ITEMS: ArtItem[] = [
     like: "I drew him from behind to feature the neck tattoo, then balanced it with crisp folds on the white coat — that quiet menace is the look I wanted.",
     medium: "Markers + Ink · A4",
     year: "2025",
-    categories: ["Anime"],
+    categories: ["Anime", "Portrait", "Colored", "Pop-art"],
     src: colorImg("mikey"),
   },
   {
@@ -143,7 +144,7 @@ const ITEMS: ArtItem[] = [
     like: "I kept Sae's face clean and then went all-in on the mechanical gears exploding off the right side — that contrast is the part I'm proudest of.",
     medium: "Alcohol Markers + Liner · A4",
     year: "2025",
-    categories: ["Anime", "Blue Lock"],
+    categories: ["Anime", "Blue Lock", "Portrait", "Colored", "Pop-art"],
     src: colorImg("sae"),
   },
 ];
@@ -153,8 +154,11 @@ function ColorsPage() {
     <div className="min-h-screen bg-[#0b0c10] text-foreground">
       <Navbar />
       <main className="relative">
+        <div className="absolute inset-x-0 top-0 h-[480px] opacity-70">
+          <SplitSectorBackground hoverSide="right" />
+        </div>
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[600px] opacity-30 blur-3xl"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[600px] opacity-25 blur-3xl"
           style={{ background: "var(--gradient-vivid)" }}
         />
         <section className="relative mx-auto max-w-7xl px-6 pt-32 pb-12">
@@ -176,7 +180,7 @@ function ColorsPage() {
           <Gallery
             items={ITEMS}
             variant="vivid"
-            filters={["Anime", "Blue Lock", "Football", "Movies"]}
+            filters={["Portrait", "Colored", "Pop-art", "Realistic", "Anime", "Blue Lock", "Football", "Movies"]}
           />
         </section>
       </main>

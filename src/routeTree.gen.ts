@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SketchesRouteImport } from './routes/sketches'
+import { Route as SketchbookRouteImport } from './routes/sketchbook'
+import { Route as FanWallRouteImport } from './routes/fan-wall'
 import { Route as CommissionRouteImport } from './routes/commission'
 import { Route as ColorsRouteImport } from './routes/colors'
 import { Route as AboutRouteImport } from './routes/about'
@@ -18,6 +20,16 @@ import { Route as IndexRouteImport } from './routes/index'
 const SketchesRoute = SketchesRouteImport.update({
   id: '/sketches',
   path: '/sketches',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SketchbookRoute = SketchbookRouteImport.update({
+  id: '/sketchbook',
+  path: '/sketchbook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FanWallRoute = FanWallRouteImport.update({
+  id: '/fan-wall',
+  path: '/fan-wall',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CommissionRoute = CommissionRouteImport.update({
@@ -46,6 +58,8 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/colors': typeof ColorsRoute
   '/commission': typeof CommissionRoute
+  '/fan-wall': typeof FanWallRoute
+  '/sketchbook': typeof SketchbookRoute
   '/sketches': typeof SketchesRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +67,8 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/colors': typeof ColorsRoute
   '/commission': typeof CommissionRoute
+  '/fan-wall': typeof FanWallRoute
+  '/sketchbook': typeof SketchbookRoute
   '/sketches': typeof SketchesRoute
 }
 export interface FileRoutesById {
@@ -61,14 +77,38 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/colors': typeof ColorsRoute
   '/commission': typeof CommissionRoute
+  '/fan-wall': typeof FanWallRoute
+  '/sketchbook': typeof SketchbookRoute
   '/sketches': typeof SketchesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/colors' | '/commission' | '/sketches'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/colors'
+    | '/commission'
+    | '/fan-wall'
+    | '/sketchbook'
+    | '/sketches'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/colors' | '/commission' | '/sketches'
-  id: '__root__' | '/' | '/about' | '/colors' | '/commission' | '/sketches'
+  to:
+    | '/'
+    | '/about'
+    | '/colors'
+    | '/commission'
+    | '/fan-wall'
+    | '/sketchbook'
+    | '/sketches'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/colors'
+    | '/commission'
+    | '/fan-wall'
+    | '/sketchbook'
+    | '/sketches'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +116,8 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ColorsRoute: typeof ColorsRoute
   CommissionRoute: typeof CommissionRoute
+  FanWallRoute: typeof FanWallRoute
+  SketchbookRoute: typeof SketchbookRoute
   SketchesRoute: typeof SketchesRoute
 }
 
@@ -86,6 +128,20 @@ declare module '@tanstack/react-router' {
       path: '/sketches'
       fullPath: '/sketches'
       preLoaderRoute: typeof SketchesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sketchbook': {
+      id: '/sketchbook'
+      path: '/sketchbook'
+      fullPath: '/sketchbook'
+      preLoaderRoute: typeof SketchbookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fan-wall': {
+      id: '/fan-wall'
+      path: '/fan-wall'
+      fullPath: '/fan-wall'
+      preLoaderRoute: typeof FanWallRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/commission': {
@@ -124,6 +180,8 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ColorsRoute: ColorsRoute,
   CommissionRoute: CommissionRoute,
+  FanWallRoute: FanWallRoute,
+  SketchbookRoute: SketchbookRoute,
   SketchesRoute: SketchesRoute,
 }
 export const routeTree = rootRouteImport

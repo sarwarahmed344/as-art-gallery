@@ -4,17 +4,29 @@ interface Props {
   src?: string;
   alt: string;
   className?: string;
+  /** Show the bottom-right "AS" watermark. Defaults to true when src exists. */
+  watermark?: boolean;
 }
 
-export function ArtImage({ src, alt, className }: Props) {
+export function ArtImage({ src, alt, className, watermark = true }: Props) {
   if (src) {
     return (
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        className={`block w-full h-auto ${className ?? ""}`}
-      />
+      <div className="relative">
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          className={`block w-full h-auto ${className ?? ""}`}
+        />
+        {watermark && (
+          <span
+            aria-hidden
+            className="pointer-events-none absolute bottom-2 right-2.5 select-none font-display text-[11px] font-semibold uppercase tracking-[0.25em] text-white/40 mix-blend-overlay drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]"
+          >
+            AS
+          </span>
+        )}
+      </div>
     );
   }
   return (
