@@ -109,12 +109,22 @@ function SketchesPage() {
           >
             <ArrowLeft className="h-3.5 w-3.5" /> Back home
           </Link>
-          <h1 className="mt-6 font-display text-5xl font-bold tracking-tighter sm:text-7xl">
-            Monochrome Sector
-          </h1>
-          <p className="mt-4 max-w-xl text-sm text-white/60">
-            Ink. Graphite. Shadow. A collection of high-contrast noir portraits — every line drawn by hand. Hover any piece to read the notes.
-          </p>
+          {/* Dramatic header */}
+          <div className="relative mt-8 overflow-hidden border-y border-white/10 py-12">
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.08]"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(45deg, #fff 0 1px, transparent 1px 7px), repeating-linear-gradient(-45deg, #fff 0 1px, transparent 1px 7px)",
+              }}
+            />
+            <h1 className="relative font-display text-6xl font-normal leading-none tracking-[0.04em] text-white sm:text-8xl md:text-[9rem]">
+              MONOCHROME SECTOR
+            </h1>
+            <p className="relative mt-4 font-display text-xl tracking-[0.35em] text-white/65 sm:text-2xl">
+              INK · GRAPHITE · SHADOW
+            </p>
+          </div>
         </section>
 
         <section className="relative mx-auto max-w-7xl px-6 pb-24">
