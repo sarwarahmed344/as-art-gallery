@@ -142,6 +142,10 @@ function Index() {
             className="group relative overflow-hidden rounded-2xl border border-white/15 bg-black p-10 transition-all duration-500 hover:-translate-y-1 hover:border-white/40 min-h-[360px] flex flex-col justify-between"
           >
             <div className="grain absolute inset-0 opacity-50" />
+            {/* Ink stamp */}
+            <div className="absolute right-6 top-6 rotate-[8deg] border-2 border-white/70 px-3 py-1 font-display text-sm uppercase tracking-[0.2em] text-white/80 mix-blend-screen">
+              7 Works
+            </div>
             <div className="relative">
               <p className="text-xs uppercase tracking-[0.3em] text-white/50">Section A</p>
               <h3 className="mt-3 font-display text-4xl font-bold text-white sm:text-5xl">
@@ -167,6 +171,10 @@ function Index() {
               style={{ background: "var(--gradient-vivid)" }}
             />
             <div className="absolute inset-[1px] rounded-2xl bg-[#0b0c10]" />
+            {/* Ink stamp */}
+            <div className="absolute right-6 top-6 -rotate-[6deg] border-2 border-white/70 px-3 py-1 font-display text-sm uppercase tracking-[0.2em] text-white/85 mix-blend-screen">
+              12 Works
+            </div>
             <div className="relative">
               <p className="text-xs uppercase tracking-[0.3em] text-white/50">Section B</p>
               <h3 className="mt-3 font-display text-5xl font-bold sm:text-5xl">

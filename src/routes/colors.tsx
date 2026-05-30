@@ -168,12 +168,19 @@ function ColorsPage() {
           >
             <ArrowLeft className="h-3.5 w-3.5" /> Back home
           </Link>
-          <h1 className="mt-6 font-display text-5xl font-bold tracking-tighter sm:text-7xl">
-            <span className="text-gradient-vivid">Vivid Spectrum</span>
-          </h1>
-          <p className="mt-4 max-w-xl text-sm text-white/65">
-            Neon, ink and pigment colliding. Filter by tag, hover any piece to read the notes, tap to open fullscreen.
-          </p>
+          {/* Dramatic header */}
+          <div className="relative mt-8 overflow-hidden border-y border-white/10 py-12">
+            <div
+              className="pointer-events-none absolute -inset-10 opacity-40 blur-3xl"
+              style={{ background: "var(--gradient-vivid)" }}
+            />
+            <h1 className="relative font-display text-6xl font-normal leading-none tracking-[0.04em] sm:text-8xl md:text-[9rem]">
+              <span className="text-gradient-vivid">VIVID SPECTRUM</span>
+            </h1>
+            <p className="relative mt-4 font-display text-xl tracking-[0.35em] text-white/70 sm:text-2xl">
+              COLOR · ENERGY · FULL VOLUME
+            </p>
+          </div>
         </section>
 
         <section className="relative mx-auto max-w-7xl px-6 pb-24">
