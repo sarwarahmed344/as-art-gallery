@@ -150,24 +150,29 @@ function Index() {
             to="/sketches"
             onMouseEnter={() => setHoverSide("left")}
             onMouseLeave={() => setHoverSide(null)}
-            className="group relative overflow-hidden rounded-2xl border border-white/15 bg-black p-10 transition-all duration-500 hover:-translate-y-1 hover:border-white/40 min-h-[360px] flex flex-col justify-between"
+            className="tilt-card group relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-2xl border border-white/15 bg-black/70 p-10 glass-dark"
           >
             <div className="grain absolute inset-0 opacity-50" />
-            {/* Ink stamp */}
-            <div className="absolute right-6 top-6 rotate-[8deg] border-2 border-white/70 px-3 py-1 font-display text-sm uppercase tracking-[0.2em] text-white/80 mix-blend-screen">
+            <div
+              className="absolute right-6 top-6 rotate-[8deg] border-2 border-white/70 px-3 py-1 font-display text-sm uppercase tracking-[0.2em] text-white/85 mix-blend-screen"
+              style={{ animation: "stamp-in 0.7s cubic-bezier(.5,1.6,.4,1) 0.5s both" }}
+            >
               7 Works
             </div>
             <div className="relative">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/50">Section A</p>
-              <h3 className="mt-3 font-display text-4xl font-bold text-white sm:text-5xl">
+              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/45">Section A</p>
+              <h3 className="mt-3 font-display text-4xl font-bold text-white sm:text-6xl">
                 Monochrome Sector
               </h3>
-              <p className="mt-4 max-w-sm text-sm text-white/65">
-                Pure noir. Ink, graphite, cross-hatching — high-contrast portraits in black and white.
+              <p className="mt-4 max-w-sm font-serif italic text-sm text-white/65">
+                Every line is a decision.
               </p>
             </div>
-            <div className="relative mt-8 inline-flex items-center gap-2 text-sm text-white transition-transform duration-500 group-hover:translate-x-2">
-              Enter sketches <ArrowRight className="h-4 w-4" />
+            <div className="relative mt-8 inline-flex items-center gap-2 text-sm text-white">
+              <span className="relative pb-1 after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-white after:transition-transform after:duration-500 group-hover:after:scale-x-100">
+                Enter sketches
+              </span>
+              <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
             </div>
           </Link>
 
@@ -176,27 +181,32 @@ function Index() {
             to="/colors"
             onMouseEnter={() => setHoverSide("right")}
             onMouseLeave={() => setHoverSide(null)}
-            className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0b0c10] p-10 transition-all duration-500 hover:-translate-y-1 min-h-[360px] flex flex-col justify-between"
+            className="tilt-card group relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#0b0c10] p-10"
           >
-            <div className="pointer-events-none absolute -inset-1 opacity-60 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+            <div className="pointer-events-none absolute -inset-1 opacity-50 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
               style={{ background: "var(--gradient-vivid)" }}
             />
             <div className="absolute inset-[1px] rounded-2xl bg-[#0b0c10]" />
-            {/* Ink stamp */}
-            <div className="absolute right-6 top-6 -rotate-[6deg] border-2 border-white/70 px-3 py-1 font-display text-sm uppercase tracking-[0.2em] text-white/85 mix-blend-screen">
+            <div
+              className="absolute right-6 top-6 -rotate-[6deg] border-2 border-white/70 px-3 py-1 font-display text-sm uppercase tracking-[0.2em] text-white/90 mix-blend-screen"
+              style={{ animation: "stamp-in 0.7s cubic-bezier(.5,1.6,.4,1) 0.7s both" }}
+            >
               12 Works
             </div>
             <div className="relative">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/50">Section B</p>
-              <h3 className="mt-3 font-display text-5xl font-bold sm:text-5xl">
+              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/45">Section B</p>
+              <h3 className="mt-3 font-display text-4xl font-bold sm:text-6xl">
                 <span className="text-gradient-vivid">Vivid Spectrum</span>
               </h3>
-              <p className="mt-4 max-w-sm text-sm text-white/65">
-                Cyberpunk neon, anime pop-art and explosive color. Where energy meets pigment.
+              <p className="mt-4 max-w-sm font-serif italic text-sm text-white/65">
+                Color as a weapon.
               </p>
             </div>
-            <div className="relative mt-8 inline-flex items-center gap-2 text-sm text-white transition-transform duration-500 group-hover:translate-x-2">
-              Enter colors <ArrowRight className="h-4 w-4" />
+            <div className="relative mt-8 inline-flex items-center gap-2 text-sm text-white">
+              <span className="relative pb-1 after:absolute after:left-0 after:bottom-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-white after:transition-transform after:duration-500 group-hover:after:scale-x-100">
+                Enter colors
+              </span>
+              <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
             </div>
           </Link>
         </div>
@@ -204,30 +214,38 @@ function Index() {
 
       {/* AS RECOMMENDS */}
       <section className="mx-auto max-w-7xl px-6 pb-24">
-        <div className="mb-10 flex items-end justify-between gap-6">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">The Artist's Edit</p>
-            <h2 className="mt-2 font-display text-3xl font-bold sm:text-4xl">AS Recommends</h2>
-            <p className="mt-2 max-w-md text-sm text-white/60">
-              Three pieces I'd point you to first. Personal picks — refreshed when something newer earns its spot.
-            </p>
-          </div>
+        <div className="mb-12 text-center">
+          <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/40">The Artist's Edit</p>
+          <h2 className="mt-3 font-display text-4xl font-bold sm:text-5xl">AS Recommends</h2>
+          <p className="mx-auto mt-3 max-w-md text-sm text-white/60">
+            Three pieces I'd point you to first. Personal picks — refreshed when something newer earns its spot.
+          </p>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {RECOMMENDS.map((r) => (
-            <Link
-              key={r.id}
-              to={r.to}
-              className="group relative overflow-hidden rounded-xl border border-white/10 bg-black"
-            >
-              <ArtImage src={r.src} alt={r.name} />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
-              <div className="absolute inset-x-0 bottom-0 p-4">
-                <p className="text-[10px] uppercase tracking-[0.25em] text-white/55">Personal pick</p>
-                <p className="mt-1 font-display text-lg font-semibold text-white">{r.name}</p>
-              </div>
-            </Link>
-          ))}
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {RECOMMENDS.map((r, i) => {
+            const rot = i === 0 ? -1.5 : i === 1 ? 1.5 : -1;
+            return (
+              <Link
+                key={r.id}
+                to={r.to}
+                style={{ transform: `rotate(${rot}deg)` }}
+                className="group relative block overflow-hidden rounded-xl border border-amber-400/30 bg-black shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 hover:!rotate-0 hover:scale-[1.03] hover:border-amber-300/70"
+              >
+                <ArtImage src={r.src} alt={r.name} />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-90" />
+
+                {/* AS Pick gold stamp */}
+                <div className="absolute right-3 top-3 rotate-[10deg] rounded-full border border-amber-300/80 bg-black/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.2em] text-amber-200 backdrop-blur">
+                  ★ AS Pick
+                </div>
+
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/55">Personal pick</p>
+                  <p className="mt-1 font-serif text-xl font-semibold text-white">{r.name}</p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
