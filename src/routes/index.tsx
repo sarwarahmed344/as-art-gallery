@@ -55,32 +55,32 @@ function Index() {
 
       {/* HERO with split sector animated background */}
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
-        <SplitSectorBackground hoverSide={hoverSide} />
+        <div className="absolute inset-0 animate-breathe">
+          <SplitSectorBackground hoverSide={hoverSide} />
+        </div>
         <div className="relative z-10 text-center animate-fade-up">
-          <h1 className="font-display text-[22vw] leading-none font-bold tracking-tighter sm:text-[18rem] md:text-[20rem]">
+          <p className="mb-4 text-[10px] uppercase tracking-[0.5em] text-white/40">Concept · Sketch · Color</p>
+          <h1 className="font-display text-[28vw] leading-[0.85] font-bold tracking-tighter sm:text-[20rem] md:text-[22rem]">
             AS
           </h1>
+          <p className="mt-2 font-serif text-xl italic text-white/80 sm:text-2xl">
+            Ink drawn from obsession.
+          </p>
           <a
             href="https://instagram.com/sarwarr.rr"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-flex items-center gap-2 text-base text-muted-foreground transition-colors hover:text-foreground sm:text-lg"
+            className="mt-4 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.3em] text-white/55 transition-colors hover:text-white"
           >
-            <Instagram className="h-4 w-4" />
-            <span className="underline decoration-dotted underline-offset-4">@sarwarr.rr</span>
+            <Instagram className="h-3 w-3" />
+            @sarwarr.rr
           </a>
 
-          {/* Artist Statement — first person, 3–4 lines */}
-          <div className="mx-auto mt-8 max-w-xl text-left sm:text-center">
-            <p className="text-[15px] leading-relaxed text-white/85">
-              I'm <span className="font-semibold text-white">AS</span> — short for Sarwar, the name
-              I sign with when the pen actually moves. I draw because some things only sit right
-              once they're on paper.
-            </p>
-            <p className="mt-2 text-[15px] leading-relaxed text-white/75">
-              <span className="text-white">Monochrome</span> is where I sit with the patience —
-              ink, graphite, hours of cross-hatching. <span className="text-white">Vivid</span> is
-              where the same characters get loud — color, energy, full volume.
+          <div className="mx-auto mt-10 max-w-xl text-center">
+            <p className="text-[14px] leading-relaxed text-white/75">
+              <span className="font-semibold text-white">Monochrome</span> is patience —
+              ink, graphite, hours of cross-hatching. <span className="font-semibold text-white">Vivid</span> is
+              the same characters at full volume.
             </p>
           </div>
         </div>
@@ -88,40 +88,51 @@ function Index() {
         <button
           onClick={scrollToSectors}
           aria-label="Scroll to galleries"
-          className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2 animate-scroll-bounce text-muted-foreground transition hover:text-foreground"
+          className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2 animate-scroll-bounce text-white/50 transition hover:text-white"
         >
           <ChevronDown className="h-7 w-7" />
         </button>
       </section>
 
-      {/* FEATURED — spotlight */}
-      <section className="relative mx-auto max-w-5xl px-6 pt-24 pb-12">
-        <div className="mb-8 text-center">
-          <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            <Sparkles className="h-3.5 w-3.5" /> This Month's Pick · Featured {FEATURED.volume}
+      {/* FEATURED — cinematic spotlight */}
+      <section className="relative mx-auto max-w-6xl px-6 pt-24 pb-12">
+        <div className="mb-10 text-center">
+          <p className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.4em] text-white/40">
+            <Sparkles className="h-3 w-3" /> {FEATURED.volume} · This Month's Pick
           </p>
-          <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">Featured Work</h2>
+          <h2 className="mt-3 font-display text-4xl font-bold sm:text-5xl">Featured Work</h2>
         </div>
 
         <Link
           to={FEATURED.sectorTo}
-          className="group relative mx-auto block w-full max-w-3xl"
+          className="group relative mx-auto grid w-full grid-cols-1 items-center gap-8 overflow-hidden rounded-2xl border border-white/10 bg-black/60 p-6 sm:p-10 md:grid-cols-[1fr_1.2fr]"
         >
-          {/* glow */}
-          <div className="pointer-events-none absolute -inset-6 rounded-3xl opacity-60 blur-3xl transition-opacity duration-700 group-hover:opacity-90"
+          {/* dominant-color vignette glow */}
+          <div className="pointer-events-none absolute -inset-20 opacity-30 blur-3xl transition-opacity duration-700 group-hover:opacity-60"
             style={{ background: "var(--gradient-vivid)" }}
           />
-          {/* vignette frame */}
-          <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-black">
-            <div className="relative">
-              <ArtImage src={FEATURED.src} alt={FEATURED.name} />
-              <div className="pointer-events-none absolute inset-0 [box-shadow:inset_0_0_120px_60px_rgba(0,0,0,0.75)]" />
-            </div>
-            <div className="p-6 sm:p-8">
-              <p className="text-[11px] uppercase tracking-[0.3em] text-white/55">{FEATURED.sectorLabel}</p>
-              <h3 className="mt-2 font-display text-2xl font-bold text-white sm:text-3xl">{FEATURED.name}</h3>
-              <p className="mt-3 max-w-xl text-sm text-white/70">{FEATURED.note}</p>
-            </div>
+
+          {/* Wax seal */}
+          <div className="absolute left-5 top-5 z-10 flex h-16 w-16 rotate-[-12deg] items-center justify-center rounded-full border-2 border-amber-500/80 bg-amber-900/40 font-display text-[9px] uppercase leading-tight tracking-[0.15em] text-amber-200 text-center shadow-[0_4px_20px_rgba(180,120,40,0.4)]"
+            style={{ animation: "stamp-in 0.7s cubic-bezier(.5,1.6,.4,1) 0.4s both" }}
+          >
+            Month<br/>Pick
+          </div>
+
+          <div className="relative order-2 md:order-1">
+            <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/45">{FEATURED.sectorLabel}</p>
+            <h3 className="mt-3 font-serif text-3xl font-semibold leading-tight text-white sm:text-4xl">
+              {FEATURED.name}
+            </h3>
+            <p className="mt-4 text-sm leading-relaxed text-white/70">{FEATURED.note}</p>
+            <span className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.3em] text-white/70 transition group-hover:text-white">
+              View piece <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-1" />
+            </span>
+          </div>
+
+          <div className="relative order-1 overflow-hidden rounded-xl border border-white/10 md:order-2">
+            <ArtImage src={FEATURED.src} alt={FEATURED.name} />
+            <div className="pointer-events-none absolute inset-0 [box-shadow:inset_0_0_100px_50px_rgba(0,0,0,0.55)]" />
           </div>
         </Link>
       </section>
