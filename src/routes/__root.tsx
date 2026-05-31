@@ -7,6 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { RouteInkLoader } from "@/components/RouteInkLoader";
 
 import appCss from "../styles.css?url";
 
@@ -129,6 +130,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <RouteInkLoader />
       <Outlet />
     </QueryClientProvider>
   );
