@@ -65,28 +65,40 @@ export function Gallery({ items, variant, filters }: Props) {
     : "transition-shadow duration-500 hover:shadow-[0_0_30px_oklch(0.72_0.27_350/0.45),0_0_60px_oklch(0.72_0.2_240/0.25)]";
 
   const chipBase =
-    "rounded-full border px-3.5 py-1.5 text-xs uppercase tracking-[0.18em] transition";
+    "relative overflow-hidden rounded-full border px-4 py-1.5 text-[11px] uppercase tracking-[0.2em] transition";
 
   return (
     <>
       {filters && filters.length > 0 && (
-        <div className="mb-8 flex flex-wrap gap-2">
-          {(["All", ...filters] as const).map((tag) => {
-            const isActive = active === tag;
-            return (
-              <button
-                key={tag}
-                onClick={() => setActive(tag as ArtTag | "All")}
-                className={`${chipBase} ${
-                  isActive
-                    ? "border-white bg-white text-black"
-                    : "border-white/20 bg-transparent text-white/70 hover:border-white/50 hover:text-white"
-                }`}
-              >
-                {tag}
-              </button>
-            );
-          })}
+        <div className="relative mb-8 -mx-2">
+          {/* Edge fade for horizontal scroll on mobile */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-background to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-background to-transparent" />
+          <div className="flex gap-2 overflow-x-auto px-2 py-1 scrollbar-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {(["All", ...filters] as const).map((tag) => {
+              const isActive = active === tag;
+              return (
+                <button
+                  key={tag}
+                  onClick={() => setActive(tag as ArtTag | "All")}
+                  className={`${chipBase} shrink-0 ${
+                    isActive
+                      ? "border-white bg-white text-black shadow-[0_0_18px_rgba(255,255,255,0.25)]"
+                      : "border-white/15 bg-white/[0.02] text-white/70 hover:border-white/40 hover:text-white"
+                  }`}
+                >
+                  {isActive && (
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 -z-0 rounded-full bg-white"
+                      style={{ animation: "stamp-in 0.4s cubic-bezier(.5,1.6,.4,1) both" }}
+                    />
+                  )}
+                  <span className="relative z-10">{tag}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
 
