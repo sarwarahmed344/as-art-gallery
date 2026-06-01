@@ -4,7 +4,6 @@ import { Lightbox, type LightboxItem } from "@/components/Lightbox";
 import { renderWithInstaLinks } from "@/lib/insta";
 import { bumpView, getViewCount } from "@/lib/views";
 
-// Tags now combine content + style: free string but constrained by usage.
 export type ArtTag = string;
 
 export type ArtItem = {
@@ -17,14 +16,12 @@ export type ArtItem = {
   year?: string;
   categories?: ArtTag[];
   src?: string;
-  /** When true (Moosa/Akber), render ONLY the instagram link beneath the image */
   idOnly?: boolean;
 };
 
 interface Props {
   items: ArtItem[];
   variant: "mono" | "vivid";
-  /** Filter tags to expose above the grid */
   filters?: ArtTag[];
 }
 
@@ -33,7 +30,6 @@ export function Gallery({ items, variant, filters }: Props) {
   const [active, setActive] = useState<ArtTag | "All">("All");
   const [views, setViews] = useState<Record<string, number>>({});
 
-  // Hydrate view counts client-side only.
   useEffect(() => {
     const next: Record<string, number> = {};
     for (const i of items) next[i.id] = getViewCount(i.id);
@@ -71,7 +67,6 @@ export function Gallery({ items, variant, filters }: Props) {
     <>
       {filters && filters.length > 0 && (
         <div className="relative mb-8 -mx-2">
-          {/* Edge fade for horizontal scroll on mobile */}
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-background to-transparent" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-background to-transparent" />
           <div className="flex gap-2 overflow-x-auto px-2 py-1 scrollbar-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -104,77 +99,34 @@ export function Gallery({ items, variant, filters }: Props) {
 
       <div className="columns-1 gap-5 sm:columns-2 lg:columns-3 [column-fill:_balance]">
         {visible.map((item, i) => (
-          <article
-            key={item.id}
-            className={`mb-5 break-inside-avoid cursor-zoom-in ${cardBase} ${glowOnHover} animate-fade-in`}
-            onClick={() => item.src && openLightbox(i, item.id)}
-          >
+          <article key={item.id} className={`mb-5 break-inside-avoid ${cardBase} ${glowOnHover} animate-fade-in`}>
             <div className="relative overflow-hidden">
-              <div className="transition-transform duration-700 ease-out group-hover:scale-[1.06]">
-                <ArtImage src={item.src} alt={item.name} />
-              </div>
-
-              {/* Hover overlay — hidden until hover, all metadata lives here */}
-              {!item.idOnly && (
-                <div className="pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/95 via-black/75 to-transparent p-5 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  <div className="space-y-2">
-                    <p className="text-sm font-semibold text-white">
-                      {item.name}
-                      {item.instaHandle && (
-                        <>
-                          {" "}
-                          <a
-                            href={`https://instagram.com/${item.instaHandle}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="pointer-events-auto text-xs font-normal text-white/65 underline decoration-dotted underline-offset-4 hover:text-white"
-                          >
-                            @{item.instaHandle}
-                          </a>
-                        </>
-                      )}
-                    </p>
-                    {item.dialogue && (
-                      <p className="line-clamp-3 text-xs italic text-white/85">
-                        “{renderWithInstaLinks(item.dialogue)}”
-                      </p>
-                    )}
-                    {item.like && (
-                      <p className="line-clamp-3 text-[11px] leading-relaxed text-white/70">
-                        {renderWithInstaLinks(item.like)}
-                      </p>
-                    )}
-                    {item.categories && item.categories.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        {item.categories.map((c) => (
-                          <span
-                            key={c}
-                            className="rounded-full border border-white/20 px-2 py-0.5 text-[9px] uppercase tracking-[0.15em] text-white/65"
-                          >
-                            {c}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-[10px] uppercase tracking-[0.15em] text-white/55">
-                      {item.medium && <span>{item.medium}</span>}
-                      {item.medium && item.year && <span className="opacity-40">·</span>}
-                      {item.year && <span>{item.year}</span>}
-                    </div>
+              {item.src ? (
+                <button
+                  type="button"
+                  onClick={() => openLightbox(i, item.id)}
+                  className="group/image relative block w-full cursor-zoom-in text-left"
+                  aria-label={`Open ${item.name}`}
+                >
+                  <div className="transition-transform duration-700 ease-out group-hover/image:scale-[1.03]">
+                    <ArtImage src={item.src} alt={item.name} />
                   </div>
-                </div>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover/image:opacity-100" />
+                  <div className="pointer-events-none absolute bottom-4 right-4 rounded-full border border-white/20 bg-black/65 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-white/80 opacity-0 transition duration-500 group-hover/image:opacity-100">
+                    Open
+                  </div>
+                </button>
+              ) : (
+                <ArtImage src={item.src} alt={item.name} />
               )}
 
-              {/* Minimal idOnly caption (Moosa/Akber) — kept visible since there's no other text */}
-              {item.idOnly && (
+              {item.idOnly && item.instaHandle && (
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-4 text-sm text-white">
                   <a
                     href={`https://instagram.com/${item.instaHandle}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="underline decoration-dotted underline-offset-4 hover:text-neon-pink"
+                    className="underline decoration-dotted underline-offset-4 hover:text-white"
                   >
                     @{item.instaHandle}
                   </a>
@@ -182,7 +134,52 @@ export function Gallery({ items, variant, filters }: Props) {
               )}
             </div>
 
-            {/* Always-visible view counter strip */}
+            {!item.idOnly && (
+              <div className="space-y-3 border-t border-white/8 px-4 py-4 sm:px-5">
+                <div className="space-y-1.5">
+                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    <h3 className="font-serif text-xl font-semibold text-white">{item.name}</h3>
+                    {item.instaHandle && (
+                      <a
+                        href={`https://instagram.com/${item.instaHandle}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] uppercase tracking-[0.18em] text-white/55 underline decoration-dotted underline-offset-4 transition hover:text-white"
+                      >
+                        @{item.instaHandle}
+                      </a>
+                    )}
+                  </div>
+                  {item.medium && (
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-white/48">{item.medium}</p>
+                  )}
+                </div>
+
+                {item.dialogue && (
+                  <p className="text-xs italic leading-relaxed text-white/82">“{renderWithInstaLinks(item.dialogue)}”</p>
+                )}
+
+                {item.like && (
+                  <div className="text-sm leading-relaxed text-white/72">
+                    {renderWithInstaLinks(item.like)}
+                  </div>
+                )}
+
+                {item.categories && item.categories.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {item.categories.map((c) => (
+                      <span
+                        key={c}
+                        className="rounded-full border border-white/14 px-2 py-0.5 text-[9px] uppercase tracking-[0.15em] text-white/58"
+                      >
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="flex items-center justify-between border-t border-white/5 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white/40">
               <span>{views[item.id] ?? "—"} views</span>
               {!item.idOnly && item.year && <span className="opacity-60">{item.year}</span>}
@@ -192,21 +189,15 @@ export function Gallery({ items, variant, filters }: Props) {
       </div>
 
       {visible.length === 0 && (
-        <p className="py-16 text-center text-sm text-white/50">
-          Nothing in this category yet.
-        </p>
+        <p className="py-16 text-center text-sm text-white/50">Nothing in this category yet.</p>
       )}
 
       <Lightbox
         items={lbItems}
         index={openIdx}
         onClose={() => setOpenIdx(null)}
-        onPrev={() =>
-          setOpenIdx((i) => (i === null ? null : (i - 1 + visible.length) % visible.length))
-        }
-        onNext={() =>
-          setOpenIdx((i) => (i === null ? null : (i + 1) % visible.length))
-        }
+        onPrev={() => setOpenIdx((idx) => (idx === null ? null : (idx - 1 + visible.length) % visible.length))}
+        onNext={() => setOpenIdx((idx) => (idx === null ? null : (idx + 1) % visible.length))}
       />
     </>
   );
