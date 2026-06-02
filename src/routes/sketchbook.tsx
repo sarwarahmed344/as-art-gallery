@@ -34,80 +34,72 @@ const ENTRIES: WipEntry[] = [
   { id: "wip-4", title: "margin doodles", caption: "the noise i leave in the corners of every notebook page." },
 ];
 
-function SpiralBinding() {
-  return (
-    <div className="pointer-events-none absolute left-0 top-0 hidden h-full w-10 md:block">
-      {Array.from({ length: 30 }).map((_, i) => (
-        <div
-          key={i}
-          className="absolute left-3 h-4 w-4 rounded-full border-2 border-stone-500/40 bg-black/60"
-          style={{ top: `${i * 40 + 80}px` }}
-        />
-      ))}
-      <div className="absolute left-0 top-0 h-full w-px bg-stone-700/40" />
-    </div>
-  );
-}
-
 function SketchbookPage() {
   return (
-    <div className="min-h-screen text-stone-200" style={{ backgroundColor: "#0D0A07" }}>
+    <div className="min-h-screen" style={{ background: "var(--background)", color: "var(--foreground)" }}>
       <Navbar />
-      <main className="ruled-paper relative min-h-screen">
-        <SpiralBinding />
-        <section className="relative mx-auto max-w-5xl px-6 pt-32 pb-10 md:pl-16">
+      <main className="relative pt-24">
+        <section className="relative mx-auto max-w-6xl px-4 pt-8 pb-10">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.4em] text-stone-400 transition hover:text-white"
+            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.3em] underline-offset-4 hover:underline"
           >
             <ArrowLeft className="h-3.5 w-3.5" /> Back home
           </Link>
 
-          <h1 className="mt-10 font-serif text-5xl italic text-stone-100 sm:text-7xl">
-            The Sketchbook
-          </h1>
-          <p className="mt-3 font-mono text-xs uppercase tracking-[0.3em] text-stone-400">
-            raw and unfiltered — this is where it begins
-          </p>
-
-          <p className="mt-6 max-w-xl text-sm leading-relaxed text-stone-300/80">
-            Half-finished pages, scrap pencil work, things I never inked, and the marks I'd
-            usually keep to myself. Nothing here is polished. That's the point.
-          </p>
+          <div className="panel relative mt-6 overflow-hidden p-8 sm:p-12" style={{ background: "var(--background)" }}>
+            <span className="chapter-marker absolute left-4 top-3 bg-[var(--background)] px-2 py-1">
+              The Sketchbook
+            </span>
+            <h1 className="font-display text-5xl font-bold leading-[0.9] sm:text-7xl">THE SKETCHBOOK</h1>
+            <p className="mt-3 font-serif text-base italic opacity-80 sm:text-xl">
+              Raw and unfiltered — this is where it begins.
+            </p>
+          </div>
         </section>
 
-        <section className="relative mx-auto max-w-5xl px-6 pb-24 md:pl-16">
-          <div className="grid gap-10 sm:grid-cols-2">
-            {ENTRIES.map((e, i) => (
-              <article
-                key={e.id}
-                className="group relative"
-                style={{ transform: `rotate(${i % 2 === 0 ? "-0.8deg" : "1deg"})` }}
-              >
-                {/* tape strip */}
-                <div className="absolute left-1/2 top-0 z-10 h-5 w-24 -translate-x-1/2 -translate-y-2 bg-amber-200/15 backdrop-blur-sm shadow-sm" />
-                <div
-                  className="border border-stone-600/40 bg-stone-900/60 p-3 shadow-[0_15px_40px_rgba(0,0,0,0.5)] transition-transform duration-500 group-hover:rotate-0"
-                  style={{ clipPath: "polygon(0 0, 100% 0, 99% 98%, 1% 100%)" }}
+        {/* Sketchbook spread — two pages with a spine */}
+        <section className="relative mx-auto max-w-6xl px-4 pb-24">
+          <div className="panel relative overflow-hidden" style={{ background: "var(--background)" }}>
+            {/* Spine */}
+            <div
+              className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-[3px] -translate-x-1/2 md:block"
+              style={{ background: "var(--ink)" }}
+            />
+            <div className="ruled-paper grid grid-cols-1 gap-0 md:grid-cols-2">
+              {ENTRIES.map((e, i) => (
+                <article
+                  key={e.id}
+                  className="relative border-b-2 p-6 last:border-b-0 md:border-b-2"
+                  style={{
+                    borderColor: "var(--ink)",
+                    borderRightWidth: i % 2 === 0 ? 0 : undefined,
+                  }}
                 >
-                  <div className="flex aspect-[4/5] w-full items-center justify-center border border-dashed border-stone-600/50 bg-stone-900/80">
+                  <span className="absolute right-3 top-2 font-mono text-[10px] uppercase tracking-[0.2em] opacity-50">
+                    pg. {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div
+                    className="flex aspect-[4/3] w-full items-center justify-center border-2 border-dashed"
+                    style={{ borderColor: "var(--ink)", background: "var(--card)" }}
+                  >
                     {e.src ? (
                       <img src={e.src} alt={e.title} className="h-full w-full object-cover" />
                     ) : (
-                      <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-stone-500">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.3em] opacity-50">
                         scan pending
                       </span>
                     )}
                   </div>
-                  <div className="mt-4 px-1 pb-2">
-                    <p className="font-mono text-sm lowercase text-stone-100">{e.title}</p>
-                    <p className="mt-1 font-mono text-[12px] lowercase leading-snug text-stone-400">
+                  <div className="mt-4">
+                    <p className="font-serif text-lg italic">{e.title}</p>
+                    <p className="mt-1 font-mono text-[12px] lowercase leading-snug opacity-75">
                       {e.caption}
                     </p>
                   </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              ))}
+            </div>
           </div>
         </section>
       </main>
