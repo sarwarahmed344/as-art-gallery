@@ -25,7 +25,7 @@ interface Props {
   filters?: ArtTag[];
 }
 
-export function Gallery({ items, variant, filters }: Props) {
+export function Gallery({ items, filters }: Props) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const [active, setActive] = useState<ArtTag | "All">("All");
   const [views, setViews] = useState<Record<string, number>>({});
@@ -41,10 +41,7 @@ export function Gallery({ items, variant, filters }: Props) {
     return items.filter((i) => i.categories?.includes(active));
   }, [items, active]);
 
-  const lbItems: LightboxItem[] = visible.map((i) => ({
-    src: i.src ?? "",
-    alt: i.name,
-  }));
+  const lbItems: LightboxItem[] = visible.map((i) => ({ src: i.src ?? "", alt: i.name }));
 
   const openLightbox = (idx: number, id: string) => {
     setOpenIdx(idx);
@@ -52,44 +49,25 @@ export function Gallery({ items, variant, filters }: Props) {
     setViews((v) => ({ ...v, [id]: fresh }));
   };
 
-  const isMono = variant === "mono";
-  const cardBase = isMono
-    ? "group relative overflow-hidden border border-white/15 bg-black"
-    : "group relative overflow-hidden rounded-xl border border-white/10 bg-[#0b0c10]";
-  const glowOnHover = isMono
-    ? ""
-    : "transition-shadow duration-500 hover:shadow-[0_0_30px_oklch(0.72_0.27_350/0.45),0_0_60px_oklch(0.72_0.2_240/0.25)]";
-
-  const chipBase =
-    "relative overflow-hidden rounded-full border px-4 py-1.5 text-[11px] uppercase tracking-[0.2em] transition";
-
   return (
     <>
       {filters && filters.length > 0 && (
-        <div className="relative mb-8 -mx-2">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-background to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-background to-transparent" />
-          <div className="flex gap-2 overflow-x-auto px-2 py-1 scrollbar-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="relative mb-10 -mx-2">
+          <div className="flex gap-2 overflow-x-auto px-2 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {(["All", ...filters] as const).map((tag) => {
               const isActive = active === tag;
               return (
                 <button
                   key={tag}
                   onClick={() => setActive(tag as ArtTag | "All")}
-                  className={`${chipBase} shrink-0 ${
+                  className="shrink-0 border-2 px-4 py-1.5 font-display text-[11px] uppercase tracking-[0.22em] transition"
+                  style={
                     isActive
-                      ? "border-white bg-white text-black shadow-[0_0_18px_rgba(255,255,255,0.25)]"
-                      : "border-white/15 bg-white/[0.02] text-white/70 hover:border-white/40 hover:text-white"
-                  }`}
+                      ? { borderColor: "var(--ink)", background: "var(--ink)", color: "var(--paper)" }
+                      : { borderColor: "var(--ink)", background: "var(--background)", color: "var(--foreground)" }
+                  }
                 >
-                  {isActive && (
-                    <span
-                      aria-hidden
-                      className="absolute inset-0 -z-0 rounded-full bg-white"
-                      style={{ animation: "stamp-in 0.4s cubic-bezier(.5,1.6,.4,1) both" }}
-                    />
-                  )}
-                  <span className="relative z-10">{tag}</span>
+                  {tag}
                 </button>
               );
             })}
@@ -97,9 +75,26 @@ export function Gallery({ items, variant, filters }: Props) {
         </div>
       )}
 
-      <div className="columns-1 gap-5 sm:columns-2 lg:columns-3 [column-fill:_balance]">
+      <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 [column-fill:_balance]">
         {visible.map((item, i) => (
-          <article key={item.id} className={`mb-5 break-inside-avoid ${cardBase} ${glowOnHover} animate-fade-in`}>
+          <article
+            key={item.id}
+            className="mb-6 break-inside-avoid panel panel-hover-thicken group relative animate-fade-in"
+            style={{ background: "var(--background)" }}
+          >
+            {/* AS ink-stamp watermark */}
+            <div
+              className="absolute right-2 top-2 z-20 border-2 px-2 py-0.5 font-display text-[10px] tracking-[0.18em]"
+              style={{
+                borderColor: "var(--ink)",
+                color: "var(--foreground)",
+                background: "var(--background)",
+                transform: "rotate(-6deg)",
+              }}
+            >
+              AS
+            </div>
+
             <div className="relative overflow-hidden">
               {item.src ? (
                 <button
@@ -108,59 +103,63 @@ export function Gallery({ items, variant, filters }: Props) {
                   className="group/image relative block w-full cursor-zoom-in text-left"
                   aria-label={`Open ${item.name}`}
                 >
-                  <div className="transition-transform duration-700 ease-out group-hover/image:scale-[1.03]">
-                    <ArtImage src={item.src} alt={item.name} />
-                  </div>
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover/image:opacity-100" />
-                  <div className="pointer-events-none absolute bottom-4 right-4 rounded-full border border-white/20 bg-black/65 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-white/80 opacity-0 transition duration-500 group-hover/image:opacity-100">
-                    Open
-                  </div>
+                  <ArtImage src={item.src} alt={item.name} />
+
+                  {/* Speech-bubble hover overlay */}
+                  {!item.idOnly && (
+                    <div className="pointer-events-none absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-300 group-hover/image:translate-y-0 group-hover/image:opacity-100">
+                      <div className="speech-bubble shadow-[6px_6px_0_0_#0A0A0A]">
+                        <p className="font-serif text-base font-semibold italic leading-tight">{item.name}</p>
+                        {item.dialogue && (
+                          <p className="mt-1 text-xs italic leading-snug">"{item.dialogue}"</p>
+                        )}
+                        <div className="mt-1.5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] opacity-70">
+                          <span>{item.medium ?? ""}</span>
+                          {item.year && <span>{item.year}</span>}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </button>
               ) : (
                 <ArtImage src={item.src} alt={item.name} />
               )}
-
-              {item.idOnly && item.instaHandle && (
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-4 text-sm text-white">
-                  <a
-                    href={`https://instagram.com/${item.instaHandle}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline decoration-dotted underline-offset-4 hover:text-white"
-                  >
-                    @{item.instaHandle}
-                  </a>
-                </div>
-              )}
             </div>
 
             {!item.idOnly && (
-              <div className="space-y-3 border-t border-white/8 px-4 py-4 sm:px-5">
-                <div className="space-y-1.5">
+              <div
+                className="space-y-2.5 border-t-2 px-4 py-4 sm:px-5"
+                style={{ borderColor: "var(--ink)" }}
+              >
+                <div>
                   <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                    <h3 className="font-serif text-xl font-semibold text-white">{item.name}</h3>
+                    <h3 className="font-serif text-xl font-semibold italic">{item.name}</h3>
                     {item.instaHandle && (
                       <a
                         href={`https://instagram.com/${item.instaHandle}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[11px] uppercase tracking-[0.18em] text-white/55 underline decoration-dotted underline-offset-4 transition hover:text-white"
+                        className="font-mono text-[11px] uppercase tracking-[0.18em] underline-offset-4 hover:underline"
                       >
                         @{item.instaHandle}
                       </a>
                     )}
                   </div>
                   {item.medium && (
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-white/48">{item.medium}</p>
+                    <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.2em] opacity-60">{item.medium}</p>
                   )}
                 </div>
 
                 {item.dialogue && (
-                  <p className="text-xs italic leading-relaxed text-white/82">“{renderWithInstaLinks(item.dialogue)}”</p>
+                  <p className="text-xs italic leading-relaxed opacity-85">
+                    <span className="font-display text-base">"</span>
+                    {renderWithInstaLinks(item.dialogue)}
+                    <span className="font-display text-base">"</span>
+                  </p>
                 )}
 
                 {item.like && (
-                  <div className="text-sm leading-relaxed text-white/72">
+                  <div className="text-sm leading-relaxed opacity-85">
                     {renderWithInstaLinks(item.like)}
                   </div>
                 )}
@@ -170,7 +169,8 @@ export function Gallery({ items, variant, filters }: Props) {
                     {item.categories.map((c) => (
                       <span
                         key={c}
-                        className="rounded-full border border-white/14 px-2 py-0.5 text-[9px] uppercase tracking-[0.15em] text-white/58"
+                        className="border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em]"
+                        style={{ borderColor: "var(--ink)" }}
                       >
                         {c}
                       </span>
@@ -180,16 +180,19 @@ export function Gallery({ items, variant, filters }: Props) {
               </div>
             )}
 
-            <div className="flex items-center justify-between border-t border-white/5 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white/40">
-              <span>{views[item.id] ?? "—"} views</span>
-              {!item.idOnly && item.year && <span className="opacity-60">{item.year}</span>}
+            <div
+              className="flex items-center justify-between border-t-2 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] opacity-70"
+              style={{ borderColor: "var(--ink)" }}
+            >
+              <span>[{String(views[item.id] ?? 0).padStart(3, "0")}] views</span>
+              {!item.idOnly && item.year && <span>pg. {String(i + 1).padStart(2, "0")}</span>}
             </div>
           </article>
         ))}
       </div>
 
       {visible.length === 0 && (
-        <p className="py-16 text-center text-sm text-white/50">Nothing in this category yet.</p>
+        <p className="py-16 text-center text-sm opacity-60">Nothing in this category yet.</p>
       )}
 
       <Lightbox

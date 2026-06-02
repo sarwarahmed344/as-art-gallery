@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
-/** A thin white ink line that draws across the top whenever the route changes. */
+/** A thick black ink line that draws across the top whenever the route changes. */
 export function RouteInkLoader() {
   const status = useRouterState({ select: (s) => s.status });
   const [show, setShow] = useState(true);
@@ -20,13 +20,13 @@ export function RouteInkLoader() {
 
   if (!show) return null;
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-0 z-[200] h-px">
+    <div className="pointer-events-none fixed inset-x-0 top-0 z-[200] h-[3px]">
       <div
-        className="h-px origin-left bg-white"
+        className="h-[3px] origin-left"
         style={{
+          background: "var(--ink)",
           transform: phase === "in" ? undefined : "scaleX(1)",
-          animation: phase === "in" ? "ink-line 0.8s cubic-bezier(.7,0,.2,1) forwards" : "ink-line-out 0.4s ease forwards",
-          boxShadow: "0 0 8px rgba(255,255,255,0.7)",
+          animation: phase === "in" ? "ink-line 0.7s cubic-bezier(.7,0,.2,1) forwards" : "ink-line-out 0.4s ease forwards",
         }}
       />
     </div>
