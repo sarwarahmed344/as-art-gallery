@@ -13,27 +13,14 @@ import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0A0A0A] px-4 text-white">
-      <div className="max-w-md text-center">
-        <svg viewBox="0 0 200 60" className="mx-auto h-16 w-48 opacity-80" aria-hidden>
-          <path
-            d="M5 40 Q 30 10, 60 35 T 110 32 Q 130 50, 160 25 L 165 28 M 170 30 L 195 35"
-            fill="none"
-            stroke="white"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeDasharray="4 6 14 4 80 6"
-          />
-        </svg>
-        <h1 className="mt-6 font-display text-6xl font-bold tracking-tighter">404</h1>
-        <p className="mt-3 text-sm text-white/65">
+    <div className="flex min-h-screen items-center justify-center px-4" style={{ background: "var(--background)", color: "var(--foreground)" }}>
+      <div className="panel max-w-md p-10 text-center" style={{ background: "var(--background)" }}>
+        <h1 className="font-display text-7xl font-bold tracking-tight">404</h1>
+        <p className="mt-3 font-serif italic opacity-80">
           This page got lost in the sketchbook.
         </p>
         <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-full border border-white/30 px-5 py-2 text-xs uppercase tracking-[0.25em] text-white transition hover:border-white hover:bg-white hover:text-black"
-          >
+          <Link to="/" className="btn-ink inline-flex items-center justify-center">
             Back to Gallery
           </Link>
         </div>
