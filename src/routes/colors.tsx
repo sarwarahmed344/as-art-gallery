@@ -4,7 +4,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { Gallery, type ArtItem } from "@/components/Gallery";
-import { SplitSectorBackground } from "@/components/SplitSectorBackground";
 import { colorImg } from "@/lib/artAssets";
 
 export const Route = createFileRoute("/colors")({
