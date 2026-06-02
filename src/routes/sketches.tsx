@@ -161,39 +161,46 @@ const ITEMS: ArtItem[] = [
 ];
 
 function SketchesPage() {
+  // Flip the entire site to full dark when entering Monochrome Sector
+  useEffect(() => {
+    document.documentElement.classList.add("dark-sector");
+    return () => document.documentElement.classList.remove("dark-sector");
+  }, []);
+
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen" style={{ background: "var(--background)", color: "var(--foreground)" }}>
       <Navbar />
-      <main className="relative">
-        <div className="absolute inset-x-0 top-0 h-[480px] opacity-70">
-          <SplitSectorBackground hoverSide="left" />
-        </div>
-        <div className="grain absolute inset-0 pointer-events-none" />
-        <section className="relative mx-auto max-w-7xl px-6 pt-32 pb-12">
+      <main className="relative pt-24">
+        <section className="relative mx-auto max-w-7xl px-4 pt-8 pb-10">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/50 transition hover:text-white"
+            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.3em] underline-offset-4 hover:underline"
           >
             <ArrowLeft className="h-3.5 w-3.5" /> Back home
           </Link>
-          <div className="relative mt-8 overflow-hidden border-y border-white/10 py-12">
+
+          {/* Manga chapter opening panel */}
+          <div className="panel relative mt-6 overflow-hidden p-10 sm:p-14" style={{ background: "var(--background)" }}>
+            <span className="chapter-marker absolute left-4 top-3 bg-[var(--background)] px-2 py-1">
+              Chapter 01
+            </span>
             <div
-              className="pointer-events-none absolute inset-0 opacity-[0.08]"
+              className="pointer-events-none absolute inset-0 opacity-30"
               style={{
-                backgroundImage:
-                  "repeating-linear-gradient(45deg, #fff 0 1px, transparent 1px 7px), repeating-linear-gradient(-45deg, #fff 0 1px, transparent 1px 7px)",
+                background:
+                  "repeating-conic-gradient(from 0deg at 50% 50%, transparent 0deg 4deg, rgba(255,255,255,0.25) 4deg 5deg, transparent 5deg 9deg)",
               }}
             />
-            <h1 className="relative font-display text-6xl font-normal leading-none tracking-[0.04em] text-white sm:text-8xl md:text-[9rem]">
-              MONOCHROME SECTOR
+            <h1 className="relative font-display text-5xl font-bold leading-[0.85] sm:text-8xl md:text-[9rem]" style={{ color: "var(--ink)" }}>
+              MONOCHROME<br />SECTOR
             </h1>
-            <p className="relative mt-4 font-display text-xl tracking-[0.35em] text-white/65 sm:text-2xl">
-              INK · GRAPHITE · SHADOW
+            <p className="relative mt-4 font-serif text-lg italic opacity-80 sm:text-2xl">
+              Every line is a decision.
             </p>
           </div>
         </section>
 
-        <section className="relative mx-auto max-w-7xl px-6 pb-24">
+        <section className="relative mx-auto max-w-7xl px-4 pb-24">
           <Gallery
             items={ITEMS}
             variant="mono"
