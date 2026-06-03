@@ -23,18 +23,18 @@ export const Route = createFileRoute("/")({
 });
 
 const FEATURED = {
-  name: "Itoshi Sae",
-  note: "This month — Sae's stillness with the gears tearing out the right side. The piece I keep going back to.",
+  name: "Vivian Hugo",
+  note: "This month — the chaos of numbers and speech bubbles against the one person who filters all of it. Hugo's stillness inside the noise is the whole piece.",
   sectorLabel: "Vivid Spectrum",
   sectorTo: "/colors" as const,
-  src: colorImg("sae"),
-  quote: "lukewarm",
+  src: colorImg("vivian"),
+  quote: "At the end of the day... the talented and talentless can never understand each other.",
 };
 
 const RECOMMENDS = [
-  { id: "gojo-vs-sukuna", name: "Gojo vs Sukuna", to: "/colors" as const, src: colorImg("gojo-vs-sukuna") },
-  { id: "neymar", name: "Neymar Jr", to: "/sketches" as const, src: sketchImg("neymar") },
-  { id: "vivian", name: "Vivian Hugo", to: "/colors" as const, src: colorImg("vivian") },
+  { id: "eren", name: "Eren Yeager", to: "/colors" as const, src: colorImg("eren") },
+  { id: "leon", name: "Leon S. Kennedy", to: "/sketches" as const, src: sketchImg("leon") },
+  { id: "kaiser", name: "Michael Kaiser", to: "/colors" as const, src: colorImg("kaiser") },
 ];
 
 function ChapterMarker({ label }: { label: string }) {
@@ -119,7 +119,7 @@ function Index() {
 
             {/* page-number stamp */}
             <div className="absolute right-6 top-6 font-display text-7xl leading-none" style={{ color: "var(--ink)" }}>
-              07
+              14
             </div>
 
             <div className="relative mt-12">
@@ -147,7 +147,7 @@ function Index() {
             <div className="pointer-events-none absolute inset-0 halftone" />
 
             <div className="absolute right-6 top-6 font-display text-7xl leading-none" style={{ color: "var(--ink)" }}>
-              12
+              25
             </div>
 
             <div className="relative mt-12">

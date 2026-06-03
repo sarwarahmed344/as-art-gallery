@@ -180,13 +180,14 @@ export function Gallery({ items, filters }: Props) {
               </div>
             )}
 
-            <div
-              className="flex items-center justify-between border-t-2 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] opacity-70"
-              style={{ borderColor: "var(--ink)" }}
-            >
-              <span>[{String(views[item.id] ?? 0).padStart(3, "0")}] views</span>
-              {!item.idOnly && item.year && <span>pg. {String(i + 1).padStart(2, "0")}</span>}
-            </div>
+            {!item.idOnly && item.year && (
+              <div
+                className="flex items-center justify-end border-t-2 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] opacity-70"
+                style={{ borderColor: "var(--ink)" }}
+              >
+                <span>pg. {String(i + 1).padStart(2, "0")}</span>
+              </div>
+            )}
           </article>
         ))}
       </div>
