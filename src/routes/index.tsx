@@ -119,7 +119,7 @@ function Index() {
 
             {/* page-number stamp */}
             <div className="absolute right-6 top-6 font-display text-7xl leading-none" style={{ color: "var(--ink)" }}>
-              07
+              14
             </div>
 
             <div className="relative mt-12">
