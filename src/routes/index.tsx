@@ -147,7 +147,7 @@ function Index() {
             <div className="pointer-events-none absolute inset-0 halftone" />
 
             <div className="absolute right-6 top-6 font-display text-7xl leading-none" style={{ color: "var(--ink)" }}>
-              12
+              25
             </div>
 
             <div className="relative mt-12">
