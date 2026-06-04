@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { RouteInkLoader } from "@/components/RouteInkLoader";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import { useEffect } from "react";
+import { registerPWA } from "@/lib/pwa-register";
 
 import appCss from "../styles.css?url";
 
@@ -126,6 +128,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    registerPWA();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
