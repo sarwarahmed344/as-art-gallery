@@ -131,6 +131,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <RouteInkLoader />
       <Outlet />
+      <InstallPrompt />
     </QueryClientProvider>
   );
 }
