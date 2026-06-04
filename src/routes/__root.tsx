@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { RouteInkLoader } from "@/components/RouteInkLoader";
+import { InstallPrompt } from "@/components/InstallPrompt";
 
 import appCss from "../styles.css?url";
 
@@ -83,9 +84,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:description", content: "Monochrome ink portraits and vivid anime pop-art by AS. Based in Hyderabad." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/3wY4PcgKwwehcNrFTKvuIg5LRjx2/social-images/social-1780524281719-Screenshot_2026-06-04_3.34.21_AM.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/3wY4PcgKwwehcNrFTKvuIg5LRjx2/social-images/social-1780524281719-Screenshot_2026-06-04_3.34.21_AM.webp" },
+      { name: "theme-color", content: "#0a0a0a" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "AS Art Gallery" },
+      { name: "mobile-web-app-capable", content: "yes" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png" },
+      { rel: "icon", type: "image/png", sizes: "192x192", href: "/icons/icon-192.png" },
+      { rel: "icon", type: "image/png", sizes: "512x512", href: "/icons/icon-512.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -121,6 +131,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <RouteInkLoader />
       <Outlet />
+      <InstallPrompt />
     </QueryClientProvider>
   );
 }
