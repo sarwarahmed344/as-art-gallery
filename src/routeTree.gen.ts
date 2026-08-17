@@ -9,14 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WallRouteImport } from './routes/wall'
 import { Route as SketchesRouteImport } from './routes/sketches'
 import { Route as SketchbookRouteImport } from './routes/sketchbook'
+import { Route as JoinRouteImport } from './routes/join'
+import { Route as GenerateRouteImport } from './routes/generate'
 import { Route as FanWallRouteImport } from './routes/fan-wall'
+import { Route as DrawRouteImport } from './routes/draw'
 import { Route as CommissionRouteImport } from './routes/commission'
 import { Route as ColorsRouteImport } from './routes/colors'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WallRoute = WallRouteImport.update({
+  id: '/wall',
+  path: '/wall',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SketchesRoute = SketchesRouteImport.update({
   id: '/sketches',
   path: '/sketches',
@@ -27,9 +37,24 @@ const SketchbookRoute = SketchbookRouteImport.update({
   path: '/sketchbook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JoinRoute = JoinRouteImport.update({
+  id: '/join',
+  path: '/join',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GenerateRoute = GenerateRouteImport.update({
+  id: '/generate',
+  path: '/generate',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FanWallRoute = FanWallRouteImport.update({
   id: '/fan-wall',
   path: '/fan-wall',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DrawRoute = DrawRouteImport.update({
+  id: '/draw',
+  path: '/draw',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CommissionRoute = CommissionRouteImport.update({
@@ -40,6 +65,11 @@ const CommissionRoute = CommissionRouteImport.update({
 const ColorsRoute = ColorsRouteImport.update({
   id: '/colors',
   path: '/colors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -56,73 +86,115 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
   '/colors': typeof ColorsRoute
   '/commission': typeof CommissionRoute
+  '/draw': typeof DrawRoute
   '/fan-wall': typeof FanWallRoute
+  '/generate': typeof GenerateRoute
+  '/join': typeof JoinRoute
   '/sketchbook': typeof SketchbookRoute
   '/sketches': typeof SketchesRoute
+  '/wall': typeof WallRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
   '/colors': typeof ColorsRoute
   '/commission': typeof CommissionRoute
+  '/draw': typeof DrawRoute
   '/fan-wall': typeof FanWallRoute
+  '/generate': typeof GenerateRoute
+  '/join': typeof JoinRoute
   '/sketchbook': typeof SketchbookRoute
   '/sketches': typeof SketchesRoute
+  '/wall': typeof WallRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
   '/colors': typeof ColorsRoute
   '/commission': typeof CommissionRoute
+  '/draw': typeof DrawRoute
   '/fan-wall': typeof FanWallRoute
+  '/generate': typeof GenerateRoute
+  '/join': typeof JoinRoute
   '/sketchbook': typeof SketchbookRoute
   '/sketches': typeof SketchesRoute
+  '/wall': typeof WallRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/colors'
     | '/commission'
+    | '/draw'
     | '/fan-wall'
+    | '/generate'
+    | '/join'
     | '/sketchbook'
     | '/sketches'
+    | '/wall'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/admin'
     | '/colors'
     | '/commission'
+    | '/draw'
     | '/fan-wall'
+    | '/generate'
+    | '/join'
     | '/sketchbook'
     | '/sketches'
+    | '/wall'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/colors'
     | '/commission'
+    | '/draw'
     | '/fan-wall'
+    | '/generate'
+    | '/join'
     | '/sketchbook'
     | '/sketches'
+    | '/wall'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRoute
   ColorsRoute: typeof ColorsRoute
   CommissionRoute: typeof CommissionRoute
+  DrawRoute: typeof DrawRoute
   FanWallRoute: typeof FanWallRoute
+  GenerateRoute: typeof GenerateRoute
+  JoinRoute: typeof JoinRoute
   SketchbookRoute: typeof SketchbookRoute
   SketchesRoute: typeof SketchesRoute
+  WallRoute: typeof WallRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wall': {
+      id: '/wall'
+      path: '/wall'
+      fullPath: '/wall'
+      preLoaderRoute: typeof WallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sketches': {
       id: '/sketches'
       path: '/sketches'
@@ -137,11 +209,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SketchbookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/join': {
+      id: '/join'
+      path: '/join'
+      fullPath: '/join'
+      preLoaderRoute: typeof JoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/generate': {
+      id: '/generate'
+      path: '/generate'
+      fullPath: '/generate'
+      preLoaderRoute: typeof GenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fan-wall': {
       id: '/fan-wall'
       path: '/fan-wall'
       fullPath: '/fan-wall'
       preLoaderRoute: typeof FanWallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/draw': {
+      id: '/draw'
+      path: '/draw'
+      fullPath: '/draw'
+      preLoaderRoute: typeof DrawRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/commission': {
@@ -156,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/colors'
       fullPath: '/colors'
       preLoaderRoute: typeof ColorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -178,11 +278,16 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRoute,
   ColorsRoute: ColorsRoute,
   CommissionRoute: CommissionRoute,
+  DrawRoute: DrawRoute,
   FanWallRoute: FanWallRoute,
+  GenerateRoute: GenerateRoute,
+  JoinRoute: JoinRoute,
   SketchbookRoute: SketchbookRoute,
   SketchesRoute: SketchesRoute,
+  WallRoute: WallRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
