@@ -9,8 +9,6 @@ export function Footer() {
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-[0.2em]">
             <Link to="/sketches" className="underline-offset-4 hover:underline">Monochrome</Link>
             <Link to="/colors" className="underline-offset-4 hover:underline">Vivid</Link>
-            <Link to="/sketchbook" className="underline-offset-4 hover:underline">Sketchbook</Link>
-            <Link to="/fan-wall" className="underline-offset-4 hover:underline">Fan Wall</Link>
             <Link to="/commission" className="underline-offset-4 hover:underline">Request a Piece</Link>
             <Link to="/about" className="underline-offset-4 hover:underline">About</Link>
             <a
