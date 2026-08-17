@@ -5,9 +5,12 @@ import { Menu, X } from "lucide-react";
 const LINKS = [
   { to: "/sketches", label: "Monochrome" },
   { to: "/colors", label: "Vivid" },
-  { to: "/sketchbook", label: "Sketchbook" },
-  { to: "/fan-wall", label: "Fan Wall" },
+  { to: "/generate", label: "Concept Lab" },
+  { to: "/draw", label: "Draw" },
+  { to: "/wall", label: "Gallery Wall" },
   { to: "/about", label: "About" },
+  { to: "/join", label: "Join as an Artist" },
+  { to: "/admin", label: "Admin" },
 ] as const;
 
 export function Navbar() {
