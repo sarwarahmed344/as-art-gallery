@@ -339,6 +339,28 @@ function CommissionPage() {
           </div>
         </section>
 
+        {/* PAYMENT QR */}
+        <section className="mx-auto max-w-3xl px-4 pb-14">
+          <h2 className="chapter-marker mb-5 block">Payment</h2>
+          <div className="panel p-8 sm:p-10 text-center">
+            <p className="font-serif text-lg italic opacity-80">
+              After we confirm your commission on WhatsApp, scan the QR below to complete the advance payment.
+            </p>
+            <div className="mt-6 inline-block border-2 p-2" style={{ borderColor: "var(--ink)" }}>
+              <img
+                src="/payment-qr.png"
+                alt="UPI payment QR for AS Art Gallery"
+                width={240}
+                height={240}
+                className="block"
+              />
+            </div>
+            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] opacity-60">
+              UPI · 9059551075
+            </p>
+          </div>
+        </section>
+
         {/* FOOTER NOTE */}
         <section className="mx-auto max-w-3xl px-4 pb-14 text-center">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] opacity-60">
