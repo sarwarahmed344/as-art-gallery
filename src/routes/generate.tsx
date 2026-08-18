@@ -72,10 +72,29 @@ function GeneratePage() {
     }, 1200);
   };
 
-  const submitToWall = () => {
-    if (!preview || !prompt.trim()) return;
-    addWallItem({ type: "ai", sector, prompt, artistName: name.trim() || "Anonymous", dataUrl: preview });
-    setSubmitted(true);
+  const submitWall = useServerFn(submitWallItem);
+  const [submitting, setSubmitting] = useState(false);
+
+  const submitToWall = async () => {
+    if (!preview || !prompt.trim() || submitting) return;
+    setSubmitting(true);
+    try {
+      await submitWall({
+        data: {
+          type: "ai",
+          prompt,
+          artistName: name.trim() || "Anonymous",
+          imageData: preview,
+          sector: sector.toLowerCase() as "monochrome" | "vivid",
+        },
+      });
+      setSubmitted(true);
+    } catch (e) {
+      console.error(e);
+      alert("Could not submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const downloadPreview = () => {
