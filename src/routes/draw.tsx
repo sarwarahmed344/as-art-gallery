@@ -267,8 +267,8 @@ function DrawPage() {
                 <button onClick={download} className="btn-ink inline-flex items-center gap-2">
                   <Download className="h-4 w-4" /> Save
                 </button>
-                <button onClick={submit} className="btn-ink inline-flex items-center gap-2" style={{ background: "var(--paper)", color: "var(--ink)" }}>
-                  Submit to Gallery Wall
+                <button onClick={submit} disabled={submitting} className="btn-ink inline-flex items-center gap-2" style={{ background: "var(--paper)", color: "var(--ink)" }}>
+                  {submitting ? "Submitting…" : "Submit to Gallery Wall"}
                 </button>
               </div>
             </div>
