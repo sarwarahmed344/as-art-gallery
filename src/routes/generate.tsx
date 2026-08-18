@@ -4,7 +4,8 @@ import { useState, useRef } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
-import { addWallItem } from "@/lib/gallery-wall";
+import { submitWallItem } from "@/lib/wall.functions";
+import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/generate")({
   head: () => ({
@@ -71,10 +72,29 @@ function GeneratePage() {
     }, 1200);
   };
 
-  const submitToWall = () => {
-    if (!preview || !prompt.trim()) return;
-    addWallItem({ type: "ai", sector, prompt, artistName: name.trim() || "Anonymous", dataUrl: preview });
-    setSubmitted(true);
+  const submitWall = useServerFn(submitWallItem);
+  const [submitting, setSubmitting] = useState(false);
+
+  const submitToWall = async () => {
+    if (!preview || !prompt.trim() || submitting) return;
+    setSubmitting(true);
+    try {
+      await submitWall({
+        data: {
+          type: "ai",
+          prompt,
+          artistName: name.trim() || "Anonymous",
+          imageData: preview,
+          sector: sector.toLowerCase() as "monochrome" | "vivid",
+        },
+      });
+      setSubmitted(true);
+    } catch (e) {
+      console.error(e);
+      alert("Could not submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const downloadPreview = () => {
@@ -181,8 +201,8 @@ function GeneratePage() {
                 <button onClick={downloadPreview} className="btn-ink inline-flex items-center gap-2">
                   <Download className="h-4 w-4" /> Download
                 </button>
-                <button onClick={submitToWall} className="btn-ink inline-flex items-center gap-2" style={{ background: "var(--paper)", color: "var(--ink)" }}>
-                  Submit to Gallery Wall
+                <button onClick={submitToWall} disabled={submitting} className="btn-ink inline-flex items-center gap-2" style={{ background: "var(--paper)", color: "var(--ink)" }}>
+                  {submitting ? "Submitting…" : "Submit to Gallery Wall"}
                 </button>
               </div>
               {submitted && <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] opacity-70">Submitted to the Gallery Wall.</p>}

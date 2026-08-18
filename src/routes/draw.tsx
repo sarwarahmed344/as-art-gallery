@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
-import { addWallItem } from "@/lib/gallery-wall";
+import { submitWallItem } from "@/lib/wall.functions";
+import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/draw")({
   head: () => ({
@@ -134,11 +135,28 @@ function DrawPage() {
     a.click();
   };
 
-  const submit = () => {
+  const submitWall = useServerFn(submitWallItem);
+  const [submitting, setSubmitting] = useState(false);
+
+  const submit = async () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    addWallItem({ type: "hand", artistName: name.trim() || "Anonymous", dataUrl: canvas.toDataURL("image/png") });
-    setSubmitted(true);
+    if (!canvas || submitting) return;
+    setSubmitting(true);
+    try {
+      await submitWall({
+        data: {
+          type: "hand-drawn",
+          artistName: name.trim() || "Anonymous",
+          imageData: canvas.toDataURL("image/png"),
+        },
+      });
+      setSubmitted(true);
+    } catch (e) {
+      console.error(e);
+      alert("Could not submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -249,8 +267,8 @@ function DrawPage() {
                 <button onClick={download} className="btn-ink inline-flex items-center gap-2">
                   <Download className="h-4 w-4" /> Save
                 </button>
-                <button onClick={submit} className="btn-ink inline-flex items-center gap-2" style={{ background: "var(--paper)", color: "var(--ink)" }}>
-                  Submit to Gallery Wall
+                <button onClick={submit} disabled={submitting} className="btn-ink inline-flex items-center gap-2" style={{ background: "var(--paper)", color: "var(--ink)" }}>
+                  {submitting ? "Submitting…" : "Submit to Gallery Wall"}
                 </button>
               </div>
             </div>

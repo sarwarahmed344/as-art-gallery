@@ -1,0 +1,3 @@
+REVOKE EXECUTE ON FUNCTION public.has_role(UUID, TEXT) FROM anon;
+REVOKE EXECUTE ON FUNCTION public.has_role(UUID, TEXT) FROM authenticated;
+REVOKE EXECUTE ON FUNCTION public.has_role(UUID, TEXT) FROM public;

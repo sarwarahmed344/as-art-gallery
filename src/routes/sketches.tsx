@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
@@ -161,12 +160,6 @@ const ITEMS: ArtItem[] = [
 ];
 
 function SketchesPage() {
-  // Flip the entire site to full dark when entering Monochrome Sector
-  useEffect(() => {
-    document.documentElement.classList.add("dark-sector");
-    return () => document.documentElement.classList.remove("dark-sector");
-  }, []);
-
   return (
     <div className="min-h-screen" style={{ background: "var(--background)", color: "var(--foreground)" }}>
       <Navbar />

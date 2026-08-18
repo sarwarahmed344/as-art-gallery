@@ -1,10 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
-import { getWallItems, DEMO_WALL, type WallItem } from "@/lib/gallery-wall";
+import { getApprovedWallItems } from "@/lib/wall.functions";
+
+const wallQueryOptions = {
+  queryKey: ["wall", "approved"],
+  queryFn: () => getApprovedWallItems(),
+};
 
 export const Route = createFileRoute("/wall")({
   head: () => ({
@@ -15,19 +21,17 @@ export const Route = createFileRoute("/wall")({
       { property: "og:description", content: "Not everything here was drawn by AS. A wall for what visitors made." },
     ],
   }),
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(wallQueryOptions);
+  },
   component: WallPage,
 });
 
 export function WallPage() {
-  const [items, setItems] = useState<WallItem[]>([]);
+  const { data: items } = useSuspenseQuery(wallQueryOptions);
   const [filter, setFilter] = useState<"All" | "ai" | "hand">("All");
 
-  useEffect(() => {
-    const stored = getWallItems();
-    setItems(stored.length > 0 ? stored : DEMO_WALL);
-  }, []);
-
-  const visible = filter === "All" ? items : items.filter((i) => i.type === filter);
+  const visible = filter === "All" ? items : items.filter((i) => (filter === "ai" ? i.type === "ai" : i.type === "hand-drawn"));
 
   return (
     <div className="min-h-screen" style={{ background: "var(--background)", color: "var(--foreground)" }}>
@@ -77,8 +81,8 @@ export function WallPage() {
               {visible.map((item) => (
                 <article key={item.id} className="panel panel-hover-thicken overflow-hidden">
                   <div className="flex aspect-square items-center justify-center border-b-2" style={{ borderColor: "var(--ink)" }}>
-                    {item.dataUrl ? (
-                      <img src={item.dataUrl} alt={item.prompt || "Visitor drawing"} className="h-full w-full object-cover" />
+                    {item.image_data ? (
+                      <img src={item.image_data} alt={item.prompt || "Visitor drawing"} className="h-full w-full object-cover" />
                     ) : (
                       <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center opacity-60">
                         <span className="font-display text-2xl uppercase">{item.type === "ai" ? "AI Concept" : "Hand-Drawn"}</span>
@@ -97,7 +101,7 @@ export function WallPage() {
                         </span>
                       )}
                     </div>
-                    <p className="mt-2 font-serif text-lg italic">{item.artistName}</p>
+                    <p className="mt-2 font-serif text-lg italic">{item.artist_name || "Anonymous"}</p>
                     {item.prompt && <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] opacity-60">{item.prompt}</p>}
                   </div>
                 </article>

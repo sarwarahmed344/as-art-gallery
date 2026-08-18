@@ -2,10 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
+import { useServerFn } from "@tanstack/react-start";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { sketchImg, colorImg } from "@/lib/artAssets";
+import { submitCommission } from "@/lib/commissions.functions";
 
 export const Route = createFileRoute("/commission")({
   head: () => ({
@@ -102,8 +104,10 @@ function CommissionPage() {
   const [tier, setTier] = useState<string>("");
   const [refCount, setRefCount] = useState(0);
   const [sent, setSent] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const submitCommissionFn = useServerFn(submitCommission);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const parsed = Schema.safeParse({
@@ -126,6 +130,22 @@ function CommissionPage() {
     setErrors({});
     const { name, instagram, reference, style: pickedStyle, tier: pickedTier } = parsed.data;
     const handle = instagram?.replace(/^@/, "").trim();
+    setSaving(true);
+    try {
+      await submitCommissionFn({
+        data: {
+          name,
+          instagram: handle ? "@" + handle : undefined,
+          tier: pickedTier,
+          style: pickedStyle.toLowerCase() as "monochrome" | "vivid",
+          description: reference,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSaving(false);
+    }
     const msg = `Hi AS, I'd like to commission a piece. Name: ${name}. Tier: ${pickedTier}. Style: ${pickedStyle}. Description: ${reference}. Instagram: ${handle ? "@" + handle : "—"}.`;
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank", "noopener,noreferrer");
@@ -310,7 +330,9 @@ function CommissionPage() {
                 {errors.tier && <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em]">{errors.tier}</p>}
               </div>
 
-              <button type="submit" className="btn-ink w-full">Send via WhatsApp</button>
+              <button type="submit" disabled={saving} className="btn-ink w-full" style={saving ? { opacity: 0.6 } : undefined}>
+                {saving ? "SENDING…" : "Send via WhatsApp"}
+              </button>
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] opacity-60">
                 Prefer email?{" "}
                 <a href="mailto:sarwarahmed344@gmail.com" className="underline underline-offset-4">
@@ -336,6 +358,28 @@ function CommissionPage() {
                 <p className="mt-2 font-serif text-base leading-relaxed opacity-80">{s.d}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* PAYMENT QR */}
+        <section className="mx-auto max-w-3xl px-4 pb-14">
+          <h2 className="chapter-marker mb-5 block">Payment</h2>
+          <div className="panel p-8 sm:p-10 text-center">
+            <p className="font-serif text-lg italic opacity-80">
+              After we confirm your commission on WhatsApp, scan the QR below to complete the advance payment.
+            </p>
+            <div className="mt-6 inline-block border-2 p-2" style={{ borderColor: "var(--ink)" }}>
+              <img
+                src="/payment-qr.png"
+                alt="UPI payment QR for AS Art Gallery"
+                width={240}
+                height={240}
+                className="block"
+              />
+            </div>
+            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] opacity-60">
+              UPI · 9059551075
+            </p>
           </div>
         </section>
 

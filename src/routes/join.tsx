@@ -2,9 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Check } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
+import { useServerFn } from "@tanstack/react-start";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
+import { submitArtistApplication } from "@/lib/artists.functions";
 
 export const Route = createFileRoute("/join")({
   head: () => ({
@@ -20,10 +22,11 @@ export const Route = createFileRoute("/join")({
 
 const Schema = z.object({
   name: z.string().trim().min(1, "Name required").max(80),
-  bio: z.string().trim().min(10, "Tell us a bit more").max(600),
   email: z.string().trim().email("Valid email required"),
-  password: z.string().min(8, "At least 8 characters"),
-  whatsapp: z.string().trim().max(20).optional().or(z.literal("")),
+  instagram: z.string().trim().min(1, "Instagram handle required").max(80),
+  portfolio: z.string().trim().url("Paste a valid URL").max(500).optional().or(z.literal("")),
+  style: z.string().trim().max(200).optional().or(z.literal("")),
+  bio: z.string().trim().min(10, "Tell us a bit more").max(1000),
 });
 
 const WHATSAPP_NUMBER = "919059551075";
@@ -32,16 +35,19 @@ function JoinPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
   const [shakeKey, setShakeKey] = useState(0);
+  const [saving, setSaving] = useState(false);
+  const submitApplication = useServerFn(submitArtistApplication);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const parsed = Schema.safeParse({
       name: fd.get("name"),
-      bio: fd.get("bio"),
       email: fd.get("email"),
-      password: fd.get("password"),
-      whatsapp: fd.get("whatsapp") ?? "",
+      instagram: fd.get("instagram"),
+      portfolio: fd.get("portfolio") ?? "",
+      style: fd.get("style") ?? "",
+      bio: fd.get("bio"),
     });
     if (!parsed.success) {
       const errs: Record<string, string> = {};
@@ -54,8 +60,25 @@ function JoinPage() {
       return;
     }
     setErrors({});
-    const { name, bio, email, whatsapp } = parsed.data;
-    const msg = `Hi AS, I'd like to join the gallery as an artist. Name: ${name}. Email: ${email}. WhatsApp: ${whatsapp || "—"}. Bio: ${bio}`;
+    const { name, bio, email, instagram, portfolio, style } = parsed.data;
+    setSaving(true);
+    try {
+      await submitApplication({
+        data: {
+          name,
+          email,
+          instagram: instagram.replace(/^@/, ""),
+          portfolioUrl: portfolio || undefined,
+          style: style || undefined,
+          note: bio,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSaving(false);
+    }
+    const msg = `Hi AS, I'd like to join the gallery as an artist. Name: ${name}. Email: ${email}. Instagram: @${instagram.replace(/^@/, "")}. ${portfolio ? "Portfolio: " + portfolio + ". " : ""}Bio: ${bio}`;
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
     setSent(true);
   };
@@ -108,12 +131,35 @@ function JoinPage() {
                 {errors.name && <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.2em]">{errors.name}</p>}
               </div>
 
+              <div className={fieldWrap("email")}>
+                <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">Contact email *</label>
+                <input name="email" type="email" required className="input-ink" placeholder="you@example.com" />
+                {errors.email && <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.2em]">{errors.email}</p>}
+              </div>
+
+              <div className={fieldWrap("instagram")}>
+                <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">Instagram handle *</label>
+                <input name="instagram" type="text" maxLength={80} required className="input-ink" placeholder="@yourhandle" />
+                {errors.instagram && <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.2em]">{errors.instagram}</p>}
+              </div>
+
+              <div className={fieldWrap("portfolio")}>
+                <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">Portfolio / website link (optional)</label>
+                <input name="portfolio" type="url" maxLength={500} className="input-ink" placeholder="https://…" />
+                {errors.portfolio && <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.2em]">{errors.portfolio}</p>}
+              </div>
+
+              <div className={fieldWrap("style")}>
+                <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">Style / medium (optional)</label>
+                <input name="style" type="text" maxLength={200} className="input-ink" placeholder="Ink, markers, digital…" />
+              </div>
+
               <div className={fieldWrap("bio")}>
                 <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">Short bio *</label>
                 <textarea
                   name="bio"
                   rows={4}
-                  maxLength={600}
+                  maxLength={1000}
                   required
                   className="input-ink resize-none"
                   placeholder="A few lines about you and your work."
@@ -121,30 +167,8 @@ function JoinPage() {
                 {errors.bio && <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.2em]">{errors.bio}</p>}
               </div>
 
-              <div className={fieldWrap("email")}>
-                <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">Contact email *</label>
-                <input name="email" type="email" required className="input-ink" placeholder="you@example.com" />
-                {errors.email && <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.2em]">{errors.email}</p>}
-              </div>
-
-              <div className={fieldWrap("password")}>
-                <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">Password *</label>
-                <input name="password" type="password" required className="input-ink" placeholder="At least 8 characters" />
-                {errors.password && <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.2em]">{errors.password}</p>}
-              </div>
-
-              <div className={fieldWrap("whatsapp")}>
-                <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">WhatsApp number (optional)</label>
-                <input name="whatsapp" type="text" maxLength={20} className="input-ink" placeholder="+91 …" />
-              </div>
-
-              <div>
-                <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">Profile photo (optional)</label>
-                <input type="file" accept="image/*" className="font-mono text-[12px]" />
-              </div>
-
-              <button type="submit" className="btn-ink w-full sm:w-auto">
-                Submit Application
+              <button type="submit" disabled={saving} className="btn-ink w-full sm:w-auto" style={saving ? { opacity: 0.6 } : undefined}>
+                {saving ? "SENDING…" : "Submit Application"}
               </button>
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] opacity-60">
                 Already applied? <span className="underline underline-offset-4 cursor-pointer">Artist login</span>
