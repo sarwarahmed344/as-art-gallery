@@ -160,12 +160,6 @@ const ITEMS: ArtItem[] = [
 ];
 
 function SketchesPage() {
-  // Flip the entire site to full dark when entering Monochrome Sector
-  useEffect(() => {
-    document.documentElement.classList.add("dark-sector");
-    return () => document.documentElement.classList.remove("dark-sector");
-  }, []);
-
   return (
     <div className="min-h-screen" style={{ background: "var(--background)", color: "var(--foreground)" }}>
       <Navbar />
