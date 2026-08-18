@@ -144,9 +144,11 @@ function DrawPage() {
     setSubmitting(true);
     try {
       await submitWall({
-        type: "hand-drawn",
-        artistName: name.trim() || "Anonymous",
-        imageData: canvas.toDataURL("image/png"),
+        data: {
+          type: "hand-drawn",
+          artistName: name.trim() || "Anonymous",
+          imageData: canvas.toDataURL("image/png"),
+        },
       });
       setSubmitted(true);
     } catch (e) {
