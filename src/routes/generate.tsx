@@ -4,7 +4,8 @@ import { useState, useRef } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
-import { addWallItem } from "@/lib/gallery-wall";
+import { submitWallItem } from "@/lib/wall.functions";
+import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/generate")({
   head: () => ({
