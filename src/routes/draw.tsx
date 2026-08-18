@@ -135,11 +135,26 @@ function DrawPage() {
     a.click();
   };
 
-  const submit = () => {
+  const submitWall = useServerFn(submitWallItem);
+  const [submitting, setSubmitting] = useState(false);
+
+  const submit = async () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    addWallItem({ type: "hand", artistName: name.trim() || "Anonymous", dataUrl: canvas.toDataURL("image/png") });
-    setSubmitted(true);
+    if (!canvas || submitting) return;
+    setSubmitting(true);
+    try {
+      await submitWall({
+        type: "hand-drawn",
+        artistName: name.trim() || "Anonymous",
+        imageData: canvas.toDataURL("image/png"),
+      });
+      setSubmitted(true);
+    } catch (e) {
+      console.error(e);
+      alert("Could not submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
