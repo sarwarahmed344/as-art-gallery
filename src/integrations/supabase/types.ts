@@ -14,13 +14,147 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      artist_applications: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          instagram: string
+          name: string
+          note: string | null
+          portfolio_url: string | null
+          status: string
+          style: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          instagram: string
+          name: string
+          note?: string | null
+          portfolio_url?: string | null
+          status?: string
+          style?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          instagram?: string
+          name?: string
+          note?: string | null
+          portfolio_url?: string | null
+          status?: string
+          style?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      commissions: {
+        Row: {
+          created_at: string
+          description: string
+          email: string | null
+          id: string
+          instagram: string | null
+          name: string
+          reference_url: string | null
+          status: string
+          style: string
+          tier: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          email?: string | null
+          id?: string
+          instagram?: string | null
+          name: string
+          reference_url?: string | null
+          status?: string
+          style: string
+          tier: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          email?: string | null
+          id?: string
+          instagram?: string | null
+          name?: string
+          reference_url?: string | null
+          status?: string
+          style?: string
+          tier?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wall_submissions: {
+        Row: {
+          artist_name: string | null
+          created_at: string
+          id: string
+          image_data: string
+          prompt: string | null
+          sector: string | null
+          status: string
+          type: string
+          user_id: string | null
+        }
+        Insert: {
+          artist_name?: string | null
+          created_at?: string
+          id?: string
+          image_data: string
+          prompt?: string | null
+          sector?: string | null
+          status?: string
+          type: string
+          user_id?: string | null
+        }
+        Update: {
+          artist_name?: string | null
+          created_at?: string
+          id?: string
+          image_data?: string
+          prompt?: string | null
+          sector?: string | null
+          status?: string
+          type?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: { Args: { _role: string; _user_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
