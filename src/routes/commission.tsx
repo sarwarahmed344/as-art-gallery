@@ -330,7 +330,9 @@ function CommissionPage() {
                 {errors.tier && <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em]">{errors.tier}</p>}
               </div>
 
-              <button type="submit" className="btn-ink w-full">Send via WhatsApp</button>
+              <button type="submit" disabled={saving} className="btn-ink w-full" style={saving ? { opacity: 0.6 } : undefined}>
+                {saving ? "SENDING…" : "Send via WhatsApp"}
+              </button>
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] opacity-60">
                 Prefer email?{" "}
                 <a href="mailto:sarwarahmed344@gmail.com" className="underline underline-offset-4">
