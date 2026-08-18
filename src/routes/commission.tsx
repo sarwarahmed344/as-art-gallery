@@ -104,8 +104,10 @@ function CommissionPage() {
   const [tier, setTier] = useState<string>("");
   const [refCount, setRefCount] = useState(0);
   const [sent, setSent] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const submitCommissionFn = useServerFn(submitCommission);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const parsed = Schema.safeParse({
@@ -128,6 +130,22 @@ function CommissionPage() {
     setErrors({});
     const { name, instagram, reference, style: pickedStyle, tier: pickedTier } = parsed.data;
     const handle = instagram?.replace(/^@/, "").trim();
+    setSaving(true);
+    try {
+      await submitCommissionFn({
+        data: {
+          name,
+          instagram: handle ? "@" + handle : undefined,
+          tier: pickedTier,
+          style: pickedStyle.toLowerCase() as "monochrome" | "vivid",
+          description: reference,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSaving(false);
+    }
     const msg = `Hi AS, I'd like to commission a piece. Name: ${name}. Tier: ${pickedTier}. Style: ${pickedStyle}. Description: ${reference}. Instagram: ${handle ? "@" + handle : "—"}.`;
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank", "noopener,noreferrer");
