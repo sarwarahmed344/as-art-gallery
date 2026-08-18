@@ -201,8 +201,8 @@ function GeneratePage() {
                 <button onClick={downloadPreview} className="btn-ink inline-flex items-center gap-2">
                   <Download className="h-4 w-4" /> Download
                 </button>
-                <button onClick={submitToWall} className="btn-ink inline-flex items-center gap-2" style={{ background: "var(--paper)", color: "var(--ink)" }}>
-                  Submit to Gallery Wall
+                <button onClick={submitToWall} disabled={submitting} className="btn-ink inline-flex items-center gap-2" style={{ background: "var(--paper)", color: "var(--ink)" }}>
+                  {submitting ? "Submitting…" : "Submit to Gallery Wall"}
                 </button>
               </div>
               {submitted && <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] opacity-70">Submitted to the Gallery Wall.</p>}
